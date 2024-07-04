@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Playback Test</title>
+</head>
+
+<body>
+    <h1>Spotify Web Playback SDK Quick Start</h1>
+    <button id="prevTrack">PREV</button>
+    <button id="togglePlay">|| PLAY ||</button>
+    <button id="nextTrack">NEXT</button>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script>
+        window.onSpotifyWebPlaybackSDKReady = () => {
+            const token = 'BQD6S3tGG38oXmi2ULQXOclT1uuneYlakVm_y0-0h-nl3jqQ9x-XG2QuEQYC3strgQFIRaW3YaocLaq7Sy2i_o0xWZvf63u7NumUmeN2Lf70cTXVpVTYbF_qGk53YOEYw2WMe_LfvgLx1iOiFGpEiKmBNVRdyBXV4X1Lemrlk7VGKxGO3XS673xd6KOCxFO51KVZbOWG';
+            const player = new Spotify.Player({
+                name: 'Web Playback SDK Quick Start Player',
+                getOAuthToken: cb => { cb(token); },
+                volume: 0.5
+            });
+
+            // Ready
+            player.addListener('ready', ({ device_id }) => {
+                console.log('Ready with Device ID', device_id);
+            });
+            // Not Ready
+            player.addListener('not_ready', ({ device_id }) => {
+                console.log('Device ID has gone offline', device_id);
+            });
+            // Errors
+            player.addListener('initialization_error', ({ message }) => {
+                console.error(message);
+            });
+            player.addListener('authentication_error', ({ message }) => {
+                console.error(message);
+            });
+            player.addListener('account_error', ({ message }) => {
+                console.error(message);
+            });
+
+            //*Buttons
+            document.getElementById('togglePlay').onclick = function () {
+                player.togglePlay();
+                console.log('toggle play');
+            };
+
+            document.getElementById('prevTrack').onclick = function () {
+                player.previousTrack().then(() => {
+                    console.log('Set to previous track!');
+                });
+            };
+
+            document.getElementById('nextTrack').onclick = function () {
+                player.nextTrack().then(() => {
+                    console.log('Skipped to next track!');
+                });
+            };
+
+
+
+
+
+
+
+            player.connect();
+        }
+    </script>
+
+</body>
+
+</html>
