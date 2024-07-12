@@ -1,12 +1,14 @@
-import { useState } from 'react'
+interface Props {
+  prop1: string
+  prop2: number
+}
 
-const TestComp = (props: {prop1:string, prop2:number}) => {
+export default function TestComp({ prop1, prop2 }: Props) {
   return (
     <>
       <h3>TestComp</h3>
-      <p>{`${props.prop1} --- ${props.prop2}`}</p>
+      <p>{`${prop1} --- ${prop2}`}</p>
     </>
   )
 }
 
-export default TestComp

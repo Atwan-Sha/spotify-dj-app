@@ -1,0 +1,12 @@
+button {
+  margin: 0 8px;
+}
+
+.btn-spotify {
+  border: 5px solid rgb(104, 255, 104);
+}
+
+.playback-info {
+  color: rgb(170, 255, 170);
+}
+
