@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './css/App.css'
-import TestComp from './TestComp.tsx'
-import PlaybackTest from './PlaybackTest.tsx'
+import TestComp from './testing/TestComp.tsx'
+import PlaybackTest from './testing/PlaybackTest.tsx'
 
 export default function App() {
   const [count, setCount] = useState(0)
