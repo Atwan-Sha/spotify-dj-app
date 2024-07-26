@@ -5,7 +5,9 @@
 }
 
 #player {
-  width: 70vw;
+  /* width: 60vw; */
+  text-align: left;
+  width: 1000px;
   height: 40vh;
   border: 1px solid grey;
 }
@@ -26,11 +28,10 @@
 }
 
 #track-info table {
-    display: inline-block;
-    text-align: center;
+    float: right;
     height: 100%;
-    width: 80%;
-    border: 1px solid grey;
+    width: 85%;
+    /* border: 1px solid grey; */
 }
 
 #track-info tr {
@@ -39,21 +40,52 @@
 }
 
 #track-info td {
-    width: 30%;
-    height: 50%;
+    /* width: 30%; */
+    /* height: 50%; */
 }
 
 
-
-
-
 #playback-btns {
+  display: inline-block;
   width: 10%;
   height: 70%;
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
 }
 
 .btn {
   margin: 0 8px;
   /* border: 5px solid rgb(104, 255, 104); */
+}
+
+#waveform {
+  display: inline-block;
+  text-align: center;
+  padding: 2em;
+  margin: 0 2em;
+  width: 70%;
+  /* height: 20%; */
+}
+
+#waveform input[type="range"] {
+  width: 100%;
+  height: 7px;
+  appearance: none;
+  margin: 5px 0;
+  background: #000000;
+  border-radius: 100px;
+}
+#waveform input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #ffffff;
+  border-radius: 50%;
+  cursor: grab;
+}
+
+
+
+#state-object {
+  text-align: left;
 }

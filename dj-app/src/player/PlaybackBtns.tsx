@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
+// import { useState, useEffect } from 'react'
 
-interface Props {
+interface Player {
   player: any
   isPaused: boolean
 }
 
-export default function PlaybackBtns({ player, isPaused }: Props) {
+export default function PlaybackBtns({ player, isPaused }: Player) {
 
   return (
     <div id="playback-btns">

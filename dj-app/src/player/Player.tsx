@@ -5,11 +5,24 @@ import PlaybackBtns from './PlaybackBtns.tsx'
 import TrackData from './TrackData.tsx'
 import Waveform from './Waveform.tsx'
 
+// ? ts interface
+const track_format = {
+  name: 'name',
+  artists: [{ name: 'artists' }],
+  album: {
+    name: 'album',
+    images: [{ url: 'img' }],
+  },
+  id: 'xxxx',
+}
+
 export default function Player({ token }: { token: string }) {
   const [player, setPlayer] = useState(undefined)
   const [isPaused, setPaused] = useState(true)
   const [isActive, setActive] = useState(false)
-  const [currTrack, setTrack] = useState({})
+  const [currTrack, setTrack] = useState(track_format)
+
+  console.log(currTrack)
 
   useEffect(() => {
     const script = document.createElement('script')
@@ -44,8 +57,23 @@ export default function Player({ token }: { token: string }) {
       interface State {
         // position: number
         // duration: number
-        track_window: { current_track: Object }
+        track_window: { current_track: Track }
         paused: boolean
+      }
+      interface Track {
+        name: string
+        artists: Artists[] //[{ name: 'artists' }],
+        album: {
+          name: string
+          images: Images[] // [{ url: 'img' }],
+        }
+        id: string
+      }
+      interface Artists {
+        name: string
+      }
+      interface Images {
+        url: string
       }
 
       player.addListener('player_state_changed', (state: State) => {
@@ -55,6 +83,8 @@ export default function Player({ token }: { token: string }) {
 
         setTrack(state.track_window.current_track)
         setPaused(state.paused)
+
+        console.log('PLAYER STATE CHANGE')
 
         player.getCurrentState().then((state: Promise<State>) => {
           !state ? setActive(false) : setActive(true)
@@ -70,13 +100,23 @@ export default function Player({ token }: { token: string }) {
   //     <b>Instance not active. Transfer your playback using your Spotify app </b>
   //   )
   // } else {
-    return (
+  return (
+    <>
       <div id="player">
-        <TrackInfo track={currTrack} />
+        <TrackInfo track={currTrack} token={token} />
         <PlaybackBtns player={player} isPaused={isPaused} />
-        <TrackData track={currTrack} />
+        {/* <TrackData track={currTrack} /> */}
         <Waveform />
       </div>
-    )
+      <div id="state-object">
+        {/* <p>{JSON.stringify(currTrack)}</p> */}
+        {/* <br />
+        <p>{currTrack.name}</p>
+        <p>{currTrack.artists[0].name}</p>
+        <p>{currTrack.album.name}</p>
+        <img src={currTrack.album.images[0].url} alt="" width="200"></img> */}
+      </div>
+    </>
+  )
   // }
 }
