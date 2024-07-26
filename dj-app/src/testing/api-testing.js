@@ -1,5 +1,5 @@
 
-const token = 'BQCU80ne48giWoFjkzb_8P0vp-zk8NGIhc4sd7OWWjpXdfnBk93MQ1kMhMWPfQj_LL9UruvYzfesJnaH4L3o-ikEQ3GvP_1W_4gCm3_XzrUGtzDGLKxDyFFKncRd7xiPxDons1hYbUm211mS9WOfjtKtJ50e-wwdryvF5-8erfqiJ6_6uXNB17AdbW4eq6toNOaC_RZkejjLjQ'
+const token = 'BQD_p9HlvskiEjwEvlk2aIEkjcvoaLKGRyiLlIqBBzNagUrkb4eUZC7KlNZ9qWQfluYv19e-B0k2Fod5IH7svfZoWiBQCpNxdp9MArEiJCH8y8libQ3vmJ8_e3PHRnQXJJ7rrh9HCwXtPf6BRnnnVSR0guPRi1HusKbmojNBd18OHk6oSGWD7Ay4mkNK9-eMqKgfsr8ESWjsuQ'
 const trackID = '5iu4J9Ea1K13vFk8yQe60K'
 
 async function getAlbumData(trackID, token) {
@@ -31,10 +31,12 @@ async function getAlbumData(trackID, token) {
   )
 
   albumData = await albumData.json()
-  relDate = await albumData.release_date
-  label = await albumData.label
+  relDate = albumData.release_date
+  label = albumData.label
 
   return {'rel_date': relDate, 'label': label}
 }
 
-console.log(await getAlbumData(trackID, token))
+const res = await getAlbumData(trackID, token)
+console.log(res)
+
