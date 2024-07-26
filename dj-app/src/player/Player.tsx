@@ -22,7 +22,7 @@ export default function Player({ token }: { token: string }) {
   const [isActive, setActive] = useState(false)
   const [currTrack, setTrack] = useState(track_format)
 
-  console.log(currTrack)
+  // console.log(currTrack)
 
   useEffect(() => {
     const script = document.createElement('script')
@@ -103,7 +103,7 @@ export default function Player({ token }: { token: string }) {
   return (
     <>
       <div id="player">
-        <TrackInfo track={currTrack} token={token} />
+        <TrackInfo track={currTrack} token={token} isActive={isActive} />
         <PlaybackBtns player={player} isPaused={isPaused} />
         {/* <TrackData track={currTrack} /> */}
         <Waveform />
