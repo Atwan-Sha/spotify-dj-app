@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import '../css/Player.css'
+import {State} from './interfaces.ts'
+
 import TrackInfo from './TrackInfo.tsx'
 import PlaybackBtns from './PlaybackBtns.tsx'
 import TrackData from './TrackData.tsx'
 import Waveform from './Waveform.tsx'
 
-// ? ts interface
 const track_format = {
   name: 'name',
   artists: [{ name: 'artists' }],
@@ -20,9 +21,13 @@ export default function Player({ token }: { token: string }) {
   const [player, setPlayer] = useState(undefined)
   const [isPaused, setPaused] = useState(true)
   const [isActive, setActive] = useState(false)
-  const [currTrack, setTrack] = useState(track_format)
+  // const [pbState, setpbState] = useState({
+  //   track_window: { current_track: { id: '' } },
+  //   paused: true,
+  // })
+  const [track, setTrack] = useState(track_format)
 
-  // console.log(currTrack)
+  // console.log(track)
 
   useEffect(() => {
     const script = document.createElement('script')
@@ -54,33 +59,12 @@ export default function Player({ token }: { token: string }) {
         }
       )
 
-      interface State {
-        // position: number
-        // duration: number
-        track_window: { current_track: Track }
-        paused: boolean
-      }
-      interface Track {
-        name: string
-        artists: Artists[] //[{ name: 'artists' }],
-        album: {
-          name: string
-          images: Images[] // [{ url: 'img' }],
-        }
-        id: string
-      }
-      interface Artists {
-        name: string
-      }
-      interface Images {
-        url: string
-      }
-
       player.addListener('player_state_changed', (state: State) => {
         if (!state) {
           return
         }
 
+        // setpbState(state)
         setTrack(state.track_window.current_track)
         setPaused(state.paused)
 
@@ -95,6 +79,11 @@ export default function Player({ token }: { token: string }) {
     }
   }, [])
 
+  // useEffect(() => {
+  //   setTrack(pbState.track_window.current_track)
+  //   setPaused(pbState.paused)
+  // }, [pbState.track_window.current_track.id])
+
   // if (!isActive) {
   //   return (
   //     <b>Instance not active. Transfer your playback using your Spotify app </b>
@@ -103,18 +92,18 @@ export default function Player({ token }: { token: string }) {
   return (
     <>
       <div id="player">
-        <TrackInfo track={currTrack} token={token} isActive={isActive} />
+        <TrackInfo track={track} token={token} isActive={isActive} />
         <PlaybackBtns player={player} isPaused={isPaused} />
-        {/* <TrackData track={currTrack} /> */}
+        {/* <TrackData track={track} /> */}
         <Waveform />
       </div>
       <div id="state-object">
-        {/* <p>{JSON.stringify(currTrack)}</p> */}
+        {/* <p>{JSON.stringify(track)}</p> */}
         {/* <br />
-        <p>{currTrack.name}</p>
-        <p>{currTrack.artists[0].name}</p>
-        <p>{currTrack.album.name}</p>
-        <img src={currTrack.album.images[0].url} alt="" width="200"></img> */}
+        <p>{track.name}</p>
+        <p>{track.artists[0].name}</p>
+        <p>{track.album.name}</p>
+        <img src={track.album.images[0].url} alt="" width="200"></img> */}
       </div>
     </>
   )

@@ -1,24 +1,5 @@
 import { useState, useEffect } from 'react'
-
-interface Track {
-  track: {
-    name: string
-    artists: Artists[] //[{ name: 'artists' }],
-    album: {
-      name: string
-      images: Images[] // [{ url: 'img' }],
-    }
-    id: string
-  }
-  token: string
-  isActive: boolean
-}
-interface Artists {
-  name: string
-}
-interface Images {
-  url: string
-}
+import {Track} from './interfaces.ts'
 
 export default function TrackInfo({ track, token, isActive }: Track) {
   console.log('RENDER TRACKINFO')
