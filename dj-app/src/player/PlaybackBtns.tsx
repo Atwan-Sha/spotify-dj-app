@@ -1,10 +1,5 @@
 // import { useState, useEffect } from 'react'
 
-interface Player {
-  player: any
-  isPaused: boolean
-}
-
 export default function PlaybackBtns({ player, isPaused }: Player) {
 
   return (
@@ -33,6 +28,8 @@ export default function PlaybackBtns({ player, isPaused }: Player) {
         }}
       >
         {isPaused ? 'PLAY' : 'PAUSE'}
+        {/* &#10074; &#10074; / &#9654; */}
+        {/* {isPaused ? '&#9654' : '&#10074 &#10074'} */}
       </button>
 
       <button

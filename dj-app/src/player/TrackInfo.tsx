@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import {Track} from './interfaces.ts'
+import placeholder from '../assets/cd-cover-placeholder.jpg'
 
 export default function TrackInfo({ track, token, isActive }: Track) {
   console.log('RENDER TRACKINFO')
@@ -31,7 +31,7 @@ export default function TrackInfo({ track, token, isActive }: Track) {
       })
 
       albumData = await albumData.json()
-      console.log(albumData)
+      // console.log(albumData)
       setRelDate(albumData.release_date)
       setLabel(albumData.label)
     }
@@ -43,7 +43,7 @@ export default function TrackInfo({ track, token, isActive }: Track) {
   //? change table to flexbox div?
   return (
     <div id="track-info">
-      <img className="cover-art" src={track.album.images[0].url} alt="" />
+      <img className="cover-art" src={isActive ? track.album.images[0].url: placeholder} alt="" />
       <table>
         <tbody>
           <tr>

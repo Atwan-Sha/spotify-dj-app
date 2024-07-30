@@ -1,0 +1,75 @@
+*
+    box-sizing: border-box
+    padding: 0
+    margin: 0
+
+#player
+    /* width: 60vw; */
+    text-align: left
+    width: 1000px
+    height: 400px
+    border: 1px solid grey
+
+    #track-info
+        text-align: left
+        width: 100%
+        height: 30%
+        background-color: black
+        // border: 1px solid grey
+        .cover-art
+            height: 100%
+            width: auto
+            aspect-ratio: 1
+            // border: 1px solid grey
+        table
+            float: right
+            height: 100%
+            width: 85%
+            // border: 1px solid grey
+            tr
+                width: 100%
+                height: 50%
+            td
+                width: 30%
+            // height: 50%
+
+    #playback-btns
+        display: inline-block
+        width: 10%
+        height: 70%
+        padding: 15px
+        // border: 1px solid grey
+        .btn
+            margin: 10px 0
+            padding: 0
+            border-radius: 50%
+            height: 25%
+            width: auto
+            aspect-ratio: 1
+            // border: 5px solid rgb(104, 255, 104)
+
+    #waveform
+        display: inline-block
+        text-align: center
+        padding: 2em
+        margin: 0 2em
+        width: 70%
+        /* height: 20%; */
+        input[type="range"]
+            width: 100%
+            height: 7px
+            appearance: none
+            margin: 5px 0
+            background: #000000
+            border-radius: 100px
+        input[type="range"]::-webkit-slider-thumb
+            -webkit-appearance: none
+            appearance: none
+            width: 20px
+            height: 20px
+            background: #ffffff
+            border-radius: 50%
+            cursor: grab
+
+#state-object
+    text-align: left

@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
-import '../css/Player.css'
-import {State} from './interfaces.ts'
+import '../styles/Player.sass'
 
 import TrackInfo from './TrackInfo.tsx'
-import PlaybackBtns from './PlaybackBtns.tsx'
 import TrackData from './TrackData.tsx'
+import PlaybackBtns from './PlaybackBtns.tsx'
 import Waveform from './Waveform.tsx'
 
 const track_format = {
@@ -21,15 +20,11 @@ export default function Player({ token }: { token: string }) {
   const [player, setPlayer] = useState(undefined)
   const [isPaused, setPaused] = useState(true)
   const [isActive, setActive] = useState(false)
-  // const [pbState, setpbState] = useState({
-  //   track_window: { current_track: { id: '' } },
-  //   paused: true,
-  // })
   const [track, setTrack] = useState(track_format)
 
-  // console.log(track)
-
   useEffect(() => {
+    console.log('useEffect RUN', player)
+
     const script = document.createElement('script')
     script.src = 'https://sdk.scdn.co/spotify-player.js'
     script.async = true
@@ -64,7 +59,6 @@ export default function Player({ token }: { token: string }) {
           return
         }
 
-        // setpbState(state)
         setTrack(state.track_window.current_track)
         setPaused(state.paused)
 
@@ -77,12 +71,11 @@ export default function Player({ token }: { token: string }) {
 
       player.connect()
     }
+    return () => {
+      // window.Spotify.Player.prototype.disconnect() 
+      console.log('CLEANUP', player)
+    }
   }, [])
-
-  // useEffect(() => {
-  //   setTrack(pbState.track_window.current_track)
-  //   setPaused(pbState.paused)
-  // }, [pbState.track_window.current_track.id])
 
   // if (!isActive) {
   //   return (

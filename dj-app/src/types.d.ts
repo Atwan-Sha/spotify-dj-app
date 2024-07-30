@@ -8,7 +8,7 @@ interface MetaData {
   id: string
 }
 
-export interface State {
+interface State {
   // position: number
   // duration: number
   track_window: {
@@ -17,8 +17,13 @@ export interface State {
   paused: boolean
 }
 
-export interface Track {
+interface Track {
   track: MetaData
   token: string
   isActive: boolean
+}
+
+interface Player {
+  player: any
+  isPaused: boolean
 }
