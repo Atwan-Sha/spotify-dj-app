@@ -1,4 +1,4 @@
-interface MetaData {
+interface Track {
   name: string
   artists: { name: string }[] //[{ name: 'artists' }],
   album: {
@@ -12,18 +12,32 @@ interface State {
   // position: number
   // duration: number
   track_window: {
-    current_track: MetaData
+    current_track: Track
   }
   paused: boolean
 }
 
-interface Track {
-  track: MetaData
+interface PlaybackBtns {
+  player: any
+  isPaused: boolean
+}
+
+interface TrackInfo {
+  track: Track
   token: string
   isActive: boolean
 }
 
-interface Player {
+interface TrackData {
+  track: Track
   player: any
-  isPaused: boolean
+  token: string
+  isActive: boolean
 }
+
+interface Waveform {
+  track: Track
+  player: any
+  audioData: any
+}
+

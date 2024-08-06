@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import '../styles/Player.sass'
 
 import TrackInfo from './TrackInfo.tsx'
@@ -23,7 +23,7 @@ export default function Player({ token }: { token: string }) {
   const [track, setTrack] = useState(track_format)
 
   useEffect(() => {
-    console.log('useEffect RUN', player)
+    // console.log('useEffect RUN')
 
     const script = document.createElement('script')
     script.src = 'https://sdk.scdn.co/spotify-player.js'
@@ -72,8 +72,12 @@ export default function Player({ token }: { token: string }) {
       player.connect()
     }
     return () => {
-      // window.Spotify.Player.prototype.disconnect() 
-      console.log('CLEANUP', player)
+      // window.Spotify.Player.prototype.disconnect()
+      // script.remove()
+      // iframe.remove()
+      // console.log(iframe)
+      // playerRef.current.disconnect()
+      console.log('CLEANUP')
     }
   }, [])
 
@@ -87,8 +91,8 @@ export default function Player({ token }: { token: string }) {
       <div id="player">
         <TrackInfo track={track} token={token} isActive={isActive} />
         <PlaybackBtns player={player} isPaused={isPaused} />
-        {/* <TrackData track={track} /> */}
-        <Waveform />
+        <TrackData track={track} player={player} token={token} isActive={isActive} />
+        {/* <Waveform /> */}
       </div>
       <div id="state-object">
         {/* <p>{JSON.stringify(track)}</p> */}

@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react'
 
-export default function Waveform() {
+export default function Waveform({ track, player, audioData }: Waveform) {
   const [slider, setSlider] = useState(100)
+  const [range, setRange] = useState(1000)
+  // console.log(audioData.track.duration)
+  // player ? setRange(audioData.track.duration) : setRange(1000)
 
   return (
     <div id="waveform">
@@ -10,8 +13,8 @@ export default function Waveform() {
         type="range"
         id="track-pos"
         name="track-pos"
-        min="1"
-        max="1000" // track length
+        min="0"
+        max={range} // track length
         value={slider} // track pos
         onChange={(e) => {
           setSlider(Number(e.target.value))
@@ -20,6 +23,7 @@ export default function Waveform() {
       />
       <p>{slider}</p>
       {/* track pos */}
+      {/* <p>{audioData}</p> */}
     </div>
   )
 }
