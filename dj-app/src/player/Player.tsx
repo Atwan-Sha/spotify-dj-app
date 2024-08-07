@@ -20,6 +20,8 @@ export default function Player({ token }: { token: string }) {
   const [player, setPlayer] = useState(undefined)
   const [isPaused, setPaused] = useState(true)
   const [isActive, setActive] = useState(false)
+  // const [playbackState, setPlaybackState] = ({})
+  // const [pos, setPos] = useState(0)
   const [track, setTrack] = useState(track_format)
 
   useEffect(() => {

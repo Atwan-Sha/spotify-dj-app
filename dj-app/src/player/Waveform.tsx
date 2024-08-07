@@ -1,10 +1,23 @@
 import { useState, useEffect } from 'react'
 
-export default function Waveform({ track, player, audioData }: Waveform) {
-  const [slider, setSlider] = useState(100)
-  const [range, setRange] = useState(1000)
-  // console.log(audioData.track.duration)
-  // player ? setRange(audioData.track.duration) : setRange(1000)
+export default function Waveform({
+  track,
+  player,
+  isActive,
+  audioData,
+}: Waveform) {
+  const [slider, setSlider] = useState(0)
+  const [range, setRange] = useState(500)
+
+  useEffect(() => {
+    audioData && setRange(audioData.track.duration)
+  }, [audioData])
+
+  if (isActive) {
+    player.getCurrentState().then((state: State) => {
+      setSlider(state.position / 1000)
+    })
+  }
 
   return (
     <div id="waveform">
@@ -17,13 +30,15 @@ export default function Waveform({ track, player, audioData }: Waveform) {
         max={range} // track length
         value={slider} // track pos
         onChange={(e) => {
+          player.seek(Number(e.target.value) * 1000).then(() => {
+            console.log('player seek')
+          })
           setSlider(Number(e.target.value))
           console.log('slider move')
-        }} // player.seek function
+        }}
       />
       <p>{slider}</p>
-      {/* track pos */}
-      {/* <p>{audioData}</p> */}
+      <p>{range}</p>
     </div>
   )
 }

@@ -7,6 +7,8 @@ const track_data = {
   key: 'Key',
 }
 
+const audio_data = {}
+
 function convertTime(t: number): string {
   const sec = Math.round(t % 60)
   const min = Math.floor(t / 60)
@@ -35,9 +37,14 @@ function convertKey(i: number): string {
   }
 }
 
-export default function TrackData({ track, player, token, isActive }: TrackData) {
+export default function TrackData({
+  track,
+  player,
+  token,
+  isActive,
+}: TrackData) {
   const [trackData, setTrackData] = useState(track_data)
-  const [audioData, setAudioData] = useState({})
+  const [audioData, setAudioData] = useState(undefined)
 
   useEffect(() => {
     async function getTrackData(): Promise<any> {
@@ -71,7 +78,12 @@ export default function TrackData({ track, player, token, isActive }: TrackData)
           <li>{trackData.key}</li>
         </ul>
       </div>
-      <Waveform track={track} player={player} audioData={isActive && audioData} />
+      <Waveform
+        track={track}
+        player={player}
+        isActive={isActive}
+        audioData={audioData}
+      />
     </>
   )
 }

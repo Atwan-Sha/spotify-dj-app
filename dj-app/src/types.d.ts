@@ -9,8 +9,7 @@ interface Track {
 }
 
 interface State {
-  // position: number
-  // duration: number
+  position: number
   track_window: {
     current_track: Track
   }
@@ -38,6 +37,7 @@ interface TrackData {
 interface Waveform {
   track: Track
   player: any
+  isActive: boolean
   audioData: any
 }
 
