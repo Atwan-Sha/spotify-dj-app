@@ -1,11 +1,19 @@
 import { useState, useEffect } from 'react'
 
+function convertTime(t: number): string {
+  const sec = Math.round(t % 60)
+  const min = Math.floor(t / 60)
+  return `${min}:${sec < 10 ? `0${sec}` : sec}`
+}
+
 export default function Waveform({
   track,
   player,
   isActive,
   audioData,
 }: Waveform) {
+  console.log('RENDER WAVEFORM')
+
   const [slider, setSlider] = useState(0)
   const [range, setRange] = useState(500)
 
@@ -15,7 +23,9 @@ export default function Waveform({
 
   if (isActive) {
     player.getCurrentState().then((state: State) => {
-      setSlider(state.position / 1000)
+      setTimeout(() => {
+        setSlider(state.position / 1000)
+      }, 1000)
     })
   }
 
@@ -34,11 +44,10 @@ export default function Waveform({
             console.log('player seek')
           })
           setSlider(Number(e.target.value))
-          console.log('slider move')
         }}
       />
-      <p>{slider}</p>
-      <p>{range}</p>
+      <p>{convertTime(slider)}</p>
+      <p>-{convertTime(range - slider)}</p>
     </div>
   )
 }

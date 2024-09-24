@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import '../styles/Player.sass'
 
 import TrackInfo from './TrackInfo.tsx'
 import TrackData from './TrackData.tsx'
 import PlaybackBtns from './PlaybackBtns.tsx'
-import Waveform from './Waveform.tsx'
+// import Waveform from './Waveform.tsx'
 
 const track_format = {
   name: 'name',

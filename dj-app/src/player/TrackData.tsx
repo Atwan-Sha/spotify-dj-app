@@ -67,7 +67,7 @@ export default function TrackData({
       setAudioData(newTrackData)
     }
     isActive && getTrackData()
-  }, [track])
+  }, [track.id, isActive])
 
   return (
     <>

@@ -36,7 +36,7 @@ export default function TrackInfo({ track, token, isActive }: TrackInfo) {
       setLabel(albumData.label)
     }
     isActive && getRelDateAndLabel()
-  }, [track])
+  }, [track.id, isActive])
 
   //? change table to flexbox div?
   return (
