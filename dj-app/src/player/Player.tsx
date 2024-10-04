@@ -64,7 +64,7 @@ export default function Player({ token }: { token: string }) {
         setTrack(state.track_window.current_track)
         setPaused(state.paused)
 
-        console.log('PLAYER STATE CHANGE')
+        // console.log('PLAYER STATE CHANGE')
 
         player.getCurrentState().then((state: Promise<State>) => {
           !state ? setActive(false) : setActive(true)
