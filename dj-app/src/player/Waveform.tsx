@@ -14,19 +14,21 @@ export default function Waveform({
 }: Waveform) {
   console.log('RENDER WAVEFORM')
 
-  const [slider, setSlider] = useState(0)
   const [range, setRange] = useState(500)
+  const [slider, setSlider] = useState(0)
+  const [changed, setChanged] = useState(false)
 
   useEffect(() => {
     audioData && setRange(audioData.track.duration)
   }, [audioData])
 
-  if (isActive) {
+  if (isActive && !changed) {
     player.getCurrentState().then((state: State) => {
       setTimeout(() => {
         setSlider(state.position / 1000)
       }, 1000)
     })
+    // setChanged(false)
   }
 
   return (
@@ -40,10 +42,15 @@ export default function Waveform({
         max={range} // track length
         value={slider} // track pos
         onChange={(e) => {
+          setSlider(Number(e.target.value))
           player.seek(Number(e.target.value) * 1000).then(() => {
             console.log('player seek')
           })
-          setSlider(Number(e.target.value))
+          setChanged(true)
+          // player.getCurrentState().then((state: State) => {
+          //   setSlider(state.position / 1000)
+          // })
+          // setSlider(Number(e.target.value))
         }}
       />
       <p>{convertTime(slider)}</p>
