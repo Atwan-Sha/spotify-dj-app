@@ -14,6 +14,7 @@ const track_format = {
     images: [{ url: 'img' }],
   },
   id: 'xxxx',
+  duration_ms: 0,
 }
 
 export default function Player({ token }: { token: string }) {

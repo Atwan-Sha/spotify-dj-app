@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
 function convertTime(t: number): string {
+  t /= 1000
   const sec = Math.round(t % 60)
   const min = Math.floor(t / 60)
   return `${min}:${sec < 10 ? `0${sec}` : sec}`
@@ -19,8 +20,13 @@ export default function Waveform({
   const [changed, setChanged] = useState(false)
 
   useEffect(() => {
-    audioData && setRange(audioData.track.duration)
+    audioData && setRange(audioData.track.duration) //! audioData undefined
   }, [audioData])
+
+  useEffect(() => {
+    console.log('track change: ', track.duration_ms)
+    track && setRange(track.duration_ms)
+  }, [track])
 
   if (isActive && !changed) {
     player.getCurrentState().then((state: State) => {
@@ -28,7 +34,6 @@ export default function Waveform({
         setSlider(state.position / 1000)
       }, 1000)
     })
-    // setChanged(false)
   }
 
   return (
@@ -46,7 +51,14 @@ export default function Waveform({
           player.seek(Number(e.target.value) * 1000).then(() => {
             console.log('player seek')
           })
-          setChanged(true)
+          
+          // setChanged(true)
+          // console.log('CH ', changed)
+          // setTimeout(() => {
+          //   setChanged(false)
+          //   console.log('CH ', changed)
+          // }, 3000)
+
           // player.getCurrentState().then((state: State) => {
           //   setSlider(state.position / 1000)
           // })

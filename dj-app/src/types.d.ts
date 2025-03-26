@@ -6,6 +6,7 @@ interface Track {
     images: { url: string }[] // [{ url: 'img' }],
   }
   id: string
+  duration_ms: number
 }
 
 interface State {

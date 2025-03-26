@@ -10,6 +10,7 @@ const track_data = {
 const audio_data = {}
 
 function convertTime(t: number): string {
+  t /= 1000
   const sec = Math.round(t % 60)
   const min = Math.floor(t / 60)
   return `${min}:${sec < 10 ? `0${sec}` : sec}`
@@ -46,27 +47,37 @@ export default function TrackData({
   const [trackData, setTrackData] = useState(track_data)
   const [audioData, setAudioData] = useState(undefined)
 
+  //! get audio-analysis deprecated!
   useEffect(() => {
-    async function getTrackData(): Promise<any> {
-      let newTrackData: any
-      newTrackData = await fetch(
-        `https://api.spotify.com/v1/audio-analysis/${track.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          method: 'GET',
-        }
-      )
-      newTrackData = await newTrackData.json()
-      setTrackData({
-        length: convertTime(newTrackData.track.duration),
-        bpm: Math.round(newTrackData.track.tempo).toString(),
-        key: convertKey(newTrackData.track.key),
-      })
-      setAudioData(newTrackData)
-    }
-    isActive && getTrackData()
+    // async function getTrackData(): Promise<any> {
+    //   let newTrackData: any
+    //   newTrackData = await fetch(
+    //     `https://api.spotify.com/v1/audio-analysis/${track.id}`,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //       method: 'GET',
+    //     }
+    //   )
+    //   newTrackData = await newTrackData.json()
+    //   console.log(newTrackData)
+    //   setTrackData({
+    //     length: convertTime(newTrackData.track.duration),
+    //     bpm: Math.round(newTrackData.track.tempo).toString(),
+    //     key: convertKey(newTrackData.track.key),
+    //   })
+    //   setAudioData(newTrackData)
+    // }
+    // isActive && getTrackData()
+
+    setTrackData({
+      // length: convertTime(100),
+      length: convertTime(track.duration_ms),
+      bpm: ' ',
+      key: 'Key',
+    })
+  
   }, [track.id, isActive])
 
   return (
