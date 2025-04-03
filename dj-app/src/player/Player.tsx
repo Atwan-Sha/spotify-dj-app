@@ -45,6 +45,7 @@ export default function Player({ token }: { token: string }) {
       })
 
       setPlayer(player)
+      console.log('set player') //! prop ref change
 
       player.addListener('ready', ({ device_id }: { device_id: string }) => {
         console.log('Ready with Device ID', device_id)
@@ -61,12 +62,11 @@ export default function Player({ token }: { token: string }) {
         if (!state) {
           return
         }
-
+        //? track object format incoherent with docs
         setTrack(state.track_window.current_track)
+        console.log('set track') //! prop ref change
         setPaused(state.paused)
-
         // console.log('PLAYER STATE CHANGE')
-
         player.getCurrentState().then((state: Promise<State>) => {
           !state ? setActive(false) : setActive(true)
         })

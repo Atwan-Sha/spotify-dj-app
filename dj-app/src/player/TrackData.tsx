@@ -44,6 +44,8 @@ export default function TrackData({
   token,
   isActive,
 }: TrackData) {
+  console.log('RENDER TRACKDATA')
+
   const [trackData, setTrackData] = useState(track_data)
   const [audioData, setAudioData] = useState(undefined)
 
@@ -93,7 +95,7 @@ export default function TrackData({
         track={track}
         player={player}
         isActive={isActive}
-        audioData={audioData}
+        // audioData={audioData}
       />
     </>
   )

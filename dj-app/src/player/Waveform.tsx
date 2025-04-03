@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 function convertTime(t: number): string {
-  t /= 1000
+  // t /= 1000
   const sec = Math.round(t % 60)
   const min = Math.floor(t / 60)
   return `${min}:${sec < 10 ? `0${sec}` : sec}`
@@ -11,28 +11,31 @@ export default function Waveform({
   track,
   player,
   isActive,
-  audioData,
+  // audioData,
 }: Waveform) {
   console.log('RENDER WAVEFORM')
+  // console.table(JSON.stringify(track, null, 2))
 
   const [range, setRange] = useState(500)
   const [slider, setSlider] = useState(0)
-  const [changed, setChanged] = useState(false)
+  // const [changed, setChanged] = useState(false)
+
+  //! audioData undefined
+  // useEffect(() => {
+  //   audioData && setRange(audioData.track.duration)
+  // }, [audioData])
 
   useEffect(() => {
-    audioData && setRange(audioData.track.duration) //! audioData undefined
-  }, [audioData])
-
-  useEffect(() => {
-    console.log('track change: ', track.duration_ms)
-    track && setRange(track.duration_ms)
+    // console.log('track change: ', track.duration_ms)
+    track && setRange(track.duration_ms / 1000)
   }, [track])
 
-  if (isActive && !changed) {
+  if (isActive) {
     player.getCurrentState().then((state: State) => {
-      setTimeout(() => {
-        setSlider(state.position / 1000)
-      }, 1000)
+      // setTimeout(() => {
+        setSlider(state.position / 1000) //! constant state change and re-renders
+        console.log('set slider')
+      // }, 1000)
     })
   }
 
@@ -48,9 +51,11 @@ export default function Waveform({
         value={slider} // track pos
         onChange={(e) => {
           setSlider(Number(e.target.value))
-          player.seek(Number(e.target.value) * 1000).then(() => {
-            console.log('player seek')
-          })
+          // setTimeout(() => {
+            player.seek(Number(e.target.value) * 1000).then(() => {
+              console.log('player seek')
+            })
+          // }, 1000)
           
           // setChanged(true)
           // console.log('CH ', changed)

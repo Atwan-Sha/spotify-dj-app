@@ -39,6 +39,6 @@ interface Waveform {
   track: Track
   player: any
   isActive: boolean
-  audioData: any
+  // audioData: any
 }
 

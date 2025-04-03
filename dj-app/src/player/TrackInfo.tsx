@@ -4,7 +4,7 @@ import add from '../assets/icon-add.png'
 import share from '../assets/icon-share.png'
 
 export default function TrackInfo({ track, token, isActive }: TrackInfo) {
-  // console.log('RENDER TRACKINFO')
+  console.log('RENDER TRACKINFO')
 
   const [relDate, setRelDate] = useState('release date')
   const [label, setLabel] = useState('label')
