@@ -7,8 +7,6 @@ const track_data = {
   key: 'Key',
 }
 
-const audio_data = {}
-
 function convertTime(t: number): string {
   t /= 1000
   const sec = Math.round(t % 60)
@@ -47,7 +45,6 @@ export default function TrackData({
   console.log('RENDER TRACKDATA')
 
   const [trackData, setTrackData] = useState(track_data)
-  const [audioData, setAudioData] = useState(undefined)
 
   //! get audio-analysis deprecated!
   useEffect(() => {
@@ -79,7 +76,7 @@ export default function TrackData({
       bpm: ' ',
       key: 'Key',
     })
-  
+
   }, [track.id, isActive])
 
   return (
@@ -95,7 +92,6 @@ export default function TrackData({
         track={track}
         player={player}
         isActive={isActive}
-        // audioData={audioData}
       />
     </>
   )
