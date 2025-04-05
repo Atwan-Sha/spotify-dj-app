@@ -17,17 +17,27 @@ export default function Waveform({
 
   const [range, setRange] = useState(500)
   const [slider, setSlider] = useState(0)
+  const [intervalID, setIntervalID] = useState(0)
+
+  const getCurrentState = () => {
+    if (isActive) {
+      player.getCurrentState().then((state: State) => {
+        setSlider(state.position / 1000) //! constant state change and re-renders
+        console.log('set slider')
+      })
+    }
+  }
 
   useEffect(() => {
     track && setRange(track.duration_ms / 1000)
+    const id = setInterval(getCurrentState, 1000)
+    // setIntervalID(id)
+    return () => {
+      clearInterval(id)
+      console.log('CLEANUP')
+    }
   }, [track])
 
-  if (isActive) {
-    player.getCurrentState().then((state: State) => {
-      setSlider(state.position / 1000) //! constant state change and re-renders
-      console.log('set slider')
-    })
-  }
 
   return (
     <div id="waveform">
