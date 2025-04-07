@@ -1,6 +1,7 @@
 // import { useState, useEffect } from 'react'
 
-export default function PlaybackBtns({ player, isPaused }: PlaybackBtns) {
+export default function PlaybackBtns({ player, isPaused, trackChange, setTrackChange }: PlaybackBtns) {
+  console.log('RENDER BUTTONS')
   return (
     <div id="playback-btns">
       {/* <button type="button" id="cue">
@@ -36,6 +37,7 @@ export default function PlaybackBtns({ player, isPaused }: PlaybackBtns) {
         className="btn prev"
         onClick={() => {
           player.previousTrack()
+          setTrackChange(true)
           console.log('Set to previous track!')
         }}
       >
@@ -48,6 +50,7 @@ export default function PlaybackBtns({ player, isPaused }: PlaybackBtns) {
         className="btn next"
         onClick={() => {
           player.nextTrack()
+          setTrackChange(true)
           console.log('Skipped to next track!')
         }}
       >

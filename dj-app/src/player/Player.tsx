@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import '../styles/Player.sass'
 
 import TrackInfo from './TrackInfo.tsx'
-import TrackData from './TrackData.tsx'
 import PlaybackBtns from './PlaybackBtns.tsx'
-// import Waveform from './Waveform.tsx'
+import TrackData from './TrackData.tsx'
+import Waveform from './Waveform.tsx'
 
 const track_format = {
   name: 'name',
@@ -22,9 +22,10 @@ export default function Player({ token }: { token: string }) {
   const [isPaused, setPaused] = useState(true)
   const [isActive, setActive] = useState(false)
   const [track, setTrack] = useState(track_format)
+  const [trackChange, setTrackChange] = useState(false)
 
   useEffect(() => {
-    
+
     const script = document.createElement('script')
     script.src = 'https://sdk.scdn.co/spotify-player.js'
     script.async = true
@@ -63,6 +64,7 @@ export default function Player({ token }: { token: string }) {
         setTrack(state.track_window.current_track)
         console.log('set track') //! prop ref change
         setPaused(state.paused)
+        // console.log('set paused')
         // console.log('PLAYER STATE CHANGE')
         player.getCurrentState().then((state: Promise<State>) => {
           !state ? setActive(false) : setActive(true)
@@ -90,10 +92,11 @@ export default function Player({ token }: { token: string }) {
     <>
       <div id="player">
         <TrackInfo track={track} token={token} isActive={isActive} />
-        <PlaybackBtns player={player} isPaused={isPaused} />
-        <TrackData track={track} player={player} token={token} isActive={isActive} />
-        {/* <Waveform /> */}
+        <PlaybackBtns player={player} isPaused={isPaused} trackChange={trackChange} setTrackChange={setTrackChange} />
+        <TrackData track={track} isActive={isActive} />
+        <Waveform track={track} player={player} isActive={isActive} isPaused={isPaused} trackChange={trackChange} setTrackChange={setTrackChange} />
       </div>
+
       <div id="state-object">
         {/* <p>{JSON.stringify(track)}</p> */}
         {/* <br />

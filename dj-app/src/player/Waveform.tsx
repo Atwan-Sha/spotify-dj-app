@@ -11,32 +11,37 @@ export default function Waveform({
   track,
   player,
   isActive,
+  isPaused,
+  trackChange,
+  setTrackChange
 }: Waveform) {
   console.log('RENDER WAVEFORM')
   // console.table(JSON.stringify(track, null, 2))
 
   const [range, setRange] = useState(500)
   const [slider, setSlider] = useState(0)
-  const [intervalID, setIntervalID] = useState(0)
 
-  const getCurrentState = () => {
-    if (isActive) {
-      player.getCurrentState().then((state: State) => {
-        setSlider(state.position / 1000) //! constant state change and re-renders
-        console.log('set slider')
-      })
-    }
+  const getPlayerState = () => {
+    player.getCurrentState().then((state: State) => {
+      setSlider(state.position / 1000)
+      console.log('set slider')
+      // console.log(state.disallows)
+    })
   }
 
   useEffect(() => {
-    track && setRange(track.duration_ms / 1000)
-    const id = setInterval(getCurrentState, 1000)
-    // setIntervalID(id)
+    let id = 0
+    if (track && isActive && !isPaused && !trackChange) {
+      setRange(track.duration_ms / 1000)
+      id = setInterval(getPlayerState, 1000)
+    }
     return () => {
       clearInterval(id)
+      trackChange && setSlider(0)
+      trackChange && setTrackChange(false)
       console.log('CLEANUP')
     }
-  }, [track])
+  }, [track, isPaused, trackChange])
 
 
   return (

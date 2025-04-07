@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Waveform from './Waveform'
+// import Waveform from './Waveform'
 
 const track_data = {
   length: '0:00',
@@ -38,8 +38,6 @@ function convertKey(i: number): string {
 
 export default function TrackData({
   track,
-  player,
-  token,
   isActive,
 }: TrackData) {
   console.log('RENDER TRACKDATA')
@@ -88,11 +86,11 @@ export default function TrackData({
           <li>{trackData.key}</li>
         </ul>
       </div>
-      <Waveform
+      {/* <Waveform
         track={track}
         player={player}
         isActive={isActive}
-      />
+      /> */}
     </>
   )
 }

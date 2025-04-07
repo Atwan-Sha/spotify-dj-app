@@ -15,11 +15,14 @@ interface State {
     current_track: Track
   }
   paused: boolean
+  disallows: Object
 }
 
 interface PlaybackBtns {
   player: any
   isPaused: boolean
+  trackChange: boolean
+  setTrackChange: function
 }
 
 interface TrackInfo {
@@ -30,8 +33,6 @@ interface TrackInfo {
 
 interface TrackData {
   track: Track
-  player: any
-  token: string
   isActive: boolean
 }
 
@@ -39,6 +40,8 @@ interface Waveform {
   track: Track
   player: any
   isActive: boolean
-  // audioData: any
+  isPaused: boolean
+  trackChange: boolean
+  setTrackChange: function
 }
 
