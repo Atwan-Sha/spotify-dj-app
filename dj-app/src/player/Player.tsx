@@ -72,6 +72,7 @@ export default function Player({ token }: { token: string }) {
       })
 
       player.connect()
+      
     }
     return () => {
       // window.Spotify.Player.prototype.disconnect()
@@ -92,9 +93,24 @@ export default function Player({ token }: { token: string }) {
     <>
       <div id="player">
         <TrackInfo track={track} token={token} isActive={isActive} />
-        <PlaybackBtns player={player} isPaused={isPaused} trackChange={trackChange} setTrackChange={setTrackChange} />
+
+        <PlaybackBtns
+          player={player}
+          isPaused={isPaused}
+          trackChange={trackChange}
+          setTrackChange={setTrackChange}
+        />
+
         <TrackData track={track} isActive={isActive} />
-        <Waveform track={track} player={player} isActive={isActive} isPaused={isPaused} trackChange={trackChange} setTrackChange={setTrackChange} />
+
+        <Waveform
+          track={track}
+          player={player}
+          isActive={isActive}
+          isPaused={isPaused}
+          trackChange={trackChange}
+          setTrackChange={setTrackChange}
+        />
       </div>
 
       <div id="state-object">

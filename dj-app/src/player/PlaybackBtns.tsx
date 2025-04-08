@@ -1,6 +1,11 @@
 // import { useState, useEffect } from 'react'
 
-export default function PlaybackBtns({ player, isPaused, trackChange, setTrackChange }: PlaybackBtns) {
+export default function PlaybackBtns({
+  player,
+  isPaused,
+  // trackChange,
+  setTrackChange
+}: PlaybackBtns) {
   console.log('RENDER BUTTONS')
   return (
     <div id="playback-btns">

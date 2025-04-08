@@ -43,7 +43,6 @@ export default function Waveform({
     }
   }, [track, isPaused, trackChange])
 
-
   return (
     <div id="waveform">
       <label htmlFor="track-pos">Track Pos</label>
@@ -62,7 +61,7 @@ export default function Waveform({
         }}
       />
       <p>{convertTime(slider)}</p>
-      <p>-{convertTime(range - slider)}</p>
+      <p>-{slider < range ? convertTime(range - slider) : '--'}</p>
     </div>
   )
 }
