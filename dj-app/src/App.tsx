@@ -6,7 +6,7 @@ import Player from './player/Player.tsx'
 
 export default function App() {
   const [token, setToken] = useState(
-    'BQC8ZJpXWY_wEzOu4OZIcS8CE1IUkbE8sI6lqtEx4Wv4FNoKnjNj1JjH8p-mXIy8s2OmZSr0xX2aIEbCuP7jhNSQEvmxyDWQ_nWl2fN-RwD19v5fZv6JLdK_RGqFJ0OLT-D2rXFpxyu6iT2qgU8mAhQE7tWwr1hv6V8Bgnv4AIz2ITm40aKbcZQQ8DyEVYSVqE96s6x0v7qeNnglyOH9dQpsppHbOKYsMgr0XPV5'
+    'BQBFlBqWcRgpv7ajMr-SfHSDxgqZpynkJyNLJD3z3CRjW4dOzNi7zd1I2Erqm2KVZZTAXkrr9mR57DAJVbO0kGfj_LVD5uei1x985hpPfA2urBr7spyX-g8RyMki19UQVs9QYVwfYOigoYg4J6ypt4xNS5amQ1Dlhx2W9xW2lOBvbVSrr1HVMj_T4rph4KXJSdyzKhrXOPUdP6W76XmapgtY7ES8fzfhSiKYfr7m'
   )
 
   return (

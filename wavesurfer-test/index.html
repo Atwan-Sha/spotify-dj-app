@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wavesurfer Test</title>
+</head>
+
+<body>
+    <h1>Wavesurfer Test</h1>
+    <div id="waveform"></div>
+    <!-- <script src="https://unpkg.com/wavesurfer.js@7"></script> -->
+    <script type="module">
+        import WaveSurfer from './node_modules/wavesurfer.js/dist/wavesurfer.js'
+        // import WaveSurfer from 'wavesurfer.js'
+
+        const wavesurfer = WaveSurfer.create({
+            container: '#waveform',
+            waveColor: '#4F4A85',
+            progressColor: '#383351',
+            // url: `audios/Clams Casino - I'm God (barnacle boi bootleg).wav`,
+            url: 'BRRRT.mp3'
+        })
+
+        wavesurfer.on('click', () => {
+            wavesurfer.play()
+        })
+
+
+
+    </script>
+</body>
+
+</html>
