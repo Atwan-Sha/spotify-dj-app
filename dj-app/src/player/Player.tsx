@@ -1,3 +1,4 @@
+// import React from 'react'
 import { useState, useEffect } from 'react'
 import '../styles/Player.sass'
 
@@ -25,7 +26,6 @@ export default function Player({ token }: { token: string }) {
   const [trackChange, setTrackChange] = useState(false)
 
   useEffect(() => {
-
     const script = document.createElement('script')
     script.src = 'https://sdk.scdn.co/spotify-player.js'
     script.async = true
@@ -63,6 +63,7 @@ export default function Player({ token }: { token: string }) {
         //? track object format incoherent with docs
         setTrack(state.track_window.current_track)
         console.log('set track') //! prop ref change
+        // console.log(state)
         setPaused(state.paused)
         // console.log('set paused')
         // console.log('PLAYER STATE CHANGE')
@@ -91,6 +92,7 @@ export default function Player({ token }: { token: string }) {
   // } else {
   return (
     <>
+      {/* <React.StrictMode> */}
       <div id="player">
         <TrackInfo track={track} token={token} isActive={isActive} />
 
@@ -121,6 +123,7 @@ export default function Player({ token }: { token: string }) {
         <p>{track.album.name}</p>
         <img src={track.album.images[0].url} alt="" width="200"></img> */}
       </div>
+      {/* </React.StrictMode> */}
     </>
   )
   // }
