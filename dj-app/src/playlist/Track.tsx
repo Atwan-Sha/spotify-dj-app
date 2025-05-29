@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
-export default function Track({name}: {name: string}) {
+export default function Track({ data }: { data: any }) {
 
-    
+
   return (
     <>
       <div id="track">
-        <p>{name}</p>
+        <p>{data}</p>
       </div>
     </>
   )

@@ -1,20 +1,40 @@
 const token =
-  'BQDcwcZ2jt118tpbTIUhLE3_BZlaay-aH93xVlfTAqOlglZRExx2zvVW9aCyDtFXnplPSHxfUPQhCFtPkt_FfLhv6dil690oLLvFLdN7ysIFDmWBR3z-9L5_5Gi1P1Xj3Fgvfx7QyPTwLBUpI7Sc6f8dkFKVbcj5_CoKcIlBvjCWgvy8yT6B4cHQME15XfCWylngoEcLT0DpEQ'
-const trackID = '6h8XB17UOsUo83w0NX8Zkq'
+  'BQAJndDl1lsU4UBVnaG087_04BMc-fD1StTyc_rjeaJBM0nuqH5IpDUkGT6uufadkpExAc343MICFvuMbo-8C8AWzqNbBBy14Ivn_aXz3Ubdf8imOoLrwumIB8IVsgJGSNFbM1nXzsvQ8ZMw9L_LEOMKpE8KwdVHPiAyRss3pZIvuqdgVYXXaO8frzQ6yzbWux2O2YerkAAUH7XpAUwB-TsG6IuW5F5mztiE2KcpahQDg2B0'
 
-async function getTrackData(trackID, token) {
-  const newTrackData = { length: 0, bpm: 0, key: '' }
-  let response = await fetch(`https://api.spotify.com/v1/audio-features/${trackID}`, {
-    headers: {
+// const trackID = '6h8XB17UOsUo83w0NX8Zkq'
+const playlistID = '1xdi2SUZ0LaH6Al71Gs7nH'
+
+async function getPlaylist(playlistID, token) {
+  let res = await fetch(`https://api.spotify.com/v1/playlists/${playlistID}/tracks`, {
+    headers: {  
       Authorization: `Bearer ${token}`,
     },
     method: 'GET',
   })
-  response = await response.json()
-  console.log(response)
+  res = await res.json()
+  console.log(res.items[1].track)
 }
 
-getTrackData(trackID, token)
+getPlaylist(playlistID, token)
+
+
+
+
+
+// async function getTrackData(trackID, token) {
+//   //* get track data
+//   const newTrackData = { length: 0, bpm: 0, key: '' }
+//   let response = await fetch(`https://api.spotify.com/v1/audio-features/${trackID}`, {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//     method: 'GET',
+//   })
+//   response = await response.json()
+//   console.log(response)
+// }
+
+// getTrackData(trackID, token)
 
 // async function getAlbumData(trackID, token) {
 //   //* get album ID
