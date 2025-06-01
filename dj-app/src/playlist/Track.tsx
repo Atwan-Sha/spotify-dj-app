@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import placeholder from '../assets/cd-cover-placeholder.jpg'
 
-export default function Track({ data }: { data: any }) {
+export default function Track({ data, isActive }: { data: any, isActive: boolean }) {
 
   return (
     <>
       <div className="track">
         <img
           className="cover-art"
-          src={placeholder}
+          src={isActive ? data.cover : placeholder}
           alt=""
         />
         <div className="track-info">

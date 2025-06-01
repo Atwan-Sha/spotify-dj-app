@@ -7,7 +7,8 @@ const track_data = {
   key: 'Key',
 }
 
-function convertTime(t: number): string {
+function convertDuration(t: number): string {
+  //* millis to min:sec
   t /= 1000
   const sec = Math.round(t % 60)
   const min = Math.floor(t / 60)
@@ -60,7 +61,7 @@ export default function TrackData({
     //   newTrackData = await newTrackData.json()
     //   console.log(newTrackData)
     //   setTrackData({
-    //     length: convertTime(newTrackData.track.duration),
+    //     length: convertDuration(newTrackData.track.duration),
     //     bpm: Math.round(newTrackData.track.tempo).toString(),
     //     key: convertKey(newTrackData.track.key),
     //   })
@@ -69,8 +70,8 @@ export default function TrackData({
     // isActive && getTrackData()
 
     setTrackData({
-      // length: convertTime(100),
-      length: convertTime(track.duration_ms),
+      // length: convertDuration(100),
+      length: convertDuration(track.duration_ms),
       bpm: ' ',
       key: 'Key',
     })
