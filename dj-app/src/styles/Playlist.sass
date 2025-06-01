@@ -4,16 +4,41 @@
     margin: 0
 
 #playlist
-    width: 400px
+    display: flex
+    flex-direction: column
+    align-items: center
+    width: 500px
     height: 1000px
     margin-right: 20px
-    border: 5px solid grey
+    border: 3px solid grey
+    border-radius: 8px
 
-    #track
-        width: 80%
-        height: 10%
-        margin: 10px
+    .track
+        display: flex
+        justify-content: space-between
+        width: 95%
+        height: 60px
+        margin: 5px
         border: 1px solid white
+        border-radius: 8px
+        .cover-art
+            height: 100%
+            width: auto
+            aspect-ratio: 1
+            border-radius: 8px
+        .track-info
+            width: 70%
+            max-width: 290px
+            display: flex
+            justify-content: space-evenly
+            flex-wrap: wrap
+            text-align: left
+            span
+                width: 100px
+        .duration
+            height: 100%
+            width: 50px
+            line-height: 55px
 
 
-    
+

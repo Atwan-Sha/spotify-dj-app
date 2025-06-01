@@ -9,7 +9,14 @@ function simplifyPlaylistData(plData: any) {
 
 export default function Playlist({ token }: { token: string }) {
   console.log('RENDER PLAYLIST')
-  const mockTrackArr = ['Track 1', 'Track 2', 'Track 3', 'Track 4']
+
+  // const mockTrackArr = ['Track 1', 'Track 2', 'Track 3', 'Track 4']
+  const mockTrackArr = [
+    { name: 'Track 1', artist: 'Artist 1', album: 'Album 1', label: 'Label 1', duration: '4:20' },
+    { name: 'Track 2', artist: 'Artist 2', album: 'Album 2', label: 'Label 2', duration: '4:22' },
+    { name: 'Track 3', artist: 'Artist 3', album: 'Album 3', label: 'Label 3', duration: '4:23' }
+  ]
+
   const playlistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
 
   const [tracks, setTracks] = useState(mockTrackArr)
@@ -25,16 +32,12 @@ export default function Playlist({ token }: { token: string }) {
       })
       playlistData = await playlistData.json()
       // console.log(playlistData.items)
-      let playlistTracks = simplifyPlaylistData(playlistData)
-      // console.log(playlistTracks)
-      setTracks(playlistTracks)
-
+      // let playlistTracks = simplifyPlaylistData(playlistData)
+      // setTracks(playlistTracks)
     }
     getPlaylistData()
 
   }, [])
-
-
 
   return (
     <>
