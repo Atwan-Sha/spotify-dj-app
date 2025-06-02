@@ -5,30 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wavesurfer Test</title>
+    <style>
+        body {
+            background-color: #3e4041;
+        }
+
+        h1 {
+            color: #dfdfdf
+        }
+
+        button {
+            font-size: larger;
+            margin-top: 30px;
+        }
+    </style>
 </head>
 
 <body>
     <h1>Wavesurfer Test</h1>
     <div id="waveform"></div>
-    <!-- <script src="https://unpkg.com/wavesurfer.js@7"></script> -->
+    <button>&#10074;&#10074;</button>
+    <button>&#9654;</button>
     <script type="module">
         import WaveSurfer from './node_modules/wavesurfer.js/dist/wavesurfer.js'
-        // import WaveSurfer from 'wavesurfer.js'
 
         const wavesurfer = WaveSurfer.create({
             container: '#waveform',
-            waveColor: '#4F4A85',
-            progressColor: '#383351',
-            // url: `audios/Clams Casino - I'm God (barnacle boi bootleg).wav`,
-            url: 'BRRRT.mp3'
+            waveColor: '#a0e274',
+            progressColor: '#658f4a',
+            height: 200,
+            barHeight: 0.6,
+            barWidth: 2,
+            barRadius: 1,
+            barGap: 3,
+            url: `audios/Clams Casino - I'm God (barnacle boi bootleg).wav`,
         })
 
-        wavesurfer.on('click', () => {
-            wavesurfer.play()
-        })
-
-
-
+        const btns = document.querySelectorAll('button')
+        btns[0].addEventListener('click', () => wavesurfer.pause())
+        btns[1].addEventListener('click', () => wavesurfer.play())
     </script>
 </body>
 
