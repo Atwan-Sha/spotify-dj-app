@@ -13,6 +13,22 @@
     border: 3px solid grey
     border-radius: 8px
 
+    overflow-y: auto
+    gap: 1rem
+
+    // scrollbar-width: thin
+    scrollbar-color: #555 #111
+
+    &::-webkit-scrollbar
+        width: 8px
+
+    &::-webkit-scrollbar-thumb
+        background-color: #555
+        border-radius: 4px
+
+    &::-webkit-scrollbar-track
+        background-color: #111
+
     .track
         display: flex
         justify-content: space-between
@@ -30,6 +46,26 @@
             width: auto
             aspect-ratio: 1
             border-radius: 8px
+            &:hover
+                // opacity: 0.2
+        .play
+            height: 58px 
+            // height: 100%
+            aspect-ratio: 1
+            width: 58px
+            position: absolute
+            border: none
+            font-size: 1.5em
+            // top: 50%
+            // left: 50%
+            // transform: translate(-50%, -50%)
+            opacity: 0
+            transition: opacity 0.3s ease
+            // cursor: pointer
+            &:hover
+                opacity: 0.9
+
+
         .track-info
             width: 70%
             max-width: 290px
@@ -39,7 +75,7 @@
             justify-content: space-evenly
             flex-wrap: wrap
             text-align: left
-            
+
             span
                 width: 100px
                 text-wrap: nowrap
@@ -48,6 +84,3 @@
             height: 100%
             width: 50px
             line-height: 55px
-
-
-
