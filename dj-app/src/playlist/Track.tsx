@@ -1,7 +1,7 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 // import placeholder from '../assets/cd-cover-placeholder.jpg'
 
-export default function Track({ data }: { data: any }) {
+export default function Track({ data, playTrack }: { data: any, playTrack: Function }) {
 
   return (
     <>
@@ -16,7 +16,8 @@ export default function Track({ data }: { data: any }) {
           type="button"
           className="btn play"
           onClick={() => {
-            console.log('play track from playlist')
+            console.log('play track id:', data.id)
+            playTrack(data.id)
           }}
         >
           &#9654;
