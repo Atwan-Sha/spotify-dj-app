@@ -16,7 +16,6 @@ export default function TrackInfo({ track, token, isActive }: TrackInfo) {
 
   const [relDate, setRelDate] = useState('release date')
   const [label, setLabel] = useState('label')
-  // const [duration, setDuration] = useState('0:00')
 
   useEffect(() => {
     async function getRelDateAndLabel(): Promise<any> {

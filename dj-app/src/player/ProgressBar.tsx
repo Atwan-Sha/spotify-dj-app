@@ -61,8 +61,8 @@ export default function ProgressBar({
           })
         }}
       />
-      <p>{convertDuration(slider)}</p>
-      <p>-{slider < range ? convertDuration(range - slider) : '--'}</p>
+      <p>{convertDuration(slider * 1000)}</p>
+      <p>-{slider < range ? convertDuration((range - slider) * 1000) : '--'}</p>
     </div>
   )
 }
