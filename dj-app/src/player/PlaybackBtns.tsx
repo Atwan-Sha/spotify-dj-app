@@ -8,11 +8,7 @@ export default function PlaybackBtns({
 }: PlaybackBtns) {
   console.log('RENDER BUTTONS')
   return (
-    <div id="playback-btns">
-      {/* <button type="button" id="cue">
-        CUE
-      </button> */}
-
+    <div className="playback-btns">
       {isPaused ? (
         <button
           type="button"

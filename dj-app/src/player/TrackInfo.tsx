@@ -3,11 +3,20 @@ import placeholder from '../assets/cd-cover-placeholder.jpg'
 import add from '../assets/icon-add.png'
 import share from '../assets/icon-share.png'
 
+function convertDuration(t: number): string {
+  //* millis to min:sec
+  t /= 1000
+  const sec = Math.round(t % 60)
+  const min = Math.floor(t / 60)
+  return `${min}:${sec < 10 ? `0${sec}` : sec}`
+}
+
 export default function TrackInfo({ track, token, isActive }: TrackInfo) {
   console.log('RENDER TRACKINFO')
 
   const [relDate, setRelDate] = useState('release date')
   const [label, setLabel] = useState('label')
+  // const [duration, setDuration] = useState('0:00')
 
   useEffect(() => {
     async function getRelDateAndLabel(): Promise<any> {
@@ -38,46 +47,38 @@ export default function TrackInfo({ track, token, isActive }: TrackInfo) {
     isActive && getRelDateAndLabel()
   }, [track.id, isActive])
 
-  //? change table to flexbox div?
   return (
-    <div id="track-info">
+    <div className="metadata-container">
       <img
         className="cover-art"
         src={isActive ? track.album.images[0].url : placeholder}
         alt=""
       />
-      <table>
-        <tbody>
-          <tr>
-            <td>{track.name}</td>
-            <td>{track.album.name}</td>
-            <td>
-              <img
-                width="30px"
-                height="auto"
-                className="icon add"
-                src={add}
-                alt=""
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>{track.artists[0].name}</td>
-            <td>
-              {relDate}, {label}
-            </td>
-            <td>
-              <img
-                width="27px"
-                height="auto" 
-                className="icon share"
-                src={share}
-                alt=""
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="track-info">
+        <span>{track.name}</span>
+        <span>{track.album.name}</span>
+        <span>{track.artists[0].name}</span>
+        <span>{relDate}, {label}</span>
+      </div>
+      <span className="duration">
+        {convertDuration(track.duration_ms)}
+      </span>
+      <div className="add-share-container">
+        <img
+          width="30px"
+          height="auto"
+          className="icon add"
+          src={add}
+          alt=""
+        />
+        <img
+          width="27px"
+          height="auto"
+          className="icon share"
+          src={share}
+          alt=""
+        />
+      </div>
     </div>
   )
 }

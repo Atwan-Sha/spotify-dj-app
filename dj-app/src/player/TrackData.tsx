@@ -80,7 +80,7 @@ export default function TrackData({
 
   return (
     <>
-      <div id="track-data">
+      <div className="track-data">
         <ul>
           <li>{trackData.length}</li>
           <li>{trackData.bpm} BPM</li>

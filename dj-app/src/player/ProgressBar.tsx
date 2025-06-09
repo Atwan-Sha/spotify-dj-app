@@ -1,21 +1,22 @@
 import { useState, useEffect } from 'react'
 
-function convertTime(t: number): string {
-  // t /= 1000
+function convertDuration(t: number): string {
+  //* millis to min:sec
+  t /= 1000
   const sec = Math.round(t % 60)
   const min = Math.floor(t / 60)
   return `${min}:${sec < 10 ? `0${sec}` : sec}`
 }
 
-export default function Waveform({
+export default function ProgressBar({
   track,
   player,
   isActive,
   isPaused,
   trackChange,
   setTrackChange
-}: Waveform) {
-  console.log('RENDER WAVEFORM')
+}: ProgressBar) {
+  console.log('RENDER PROGRESSBAR')
   // console.table(JSON.stringify(track, null, 2))
 
   const [range, setRange] = useState(500)
@@ -44,8 +45,8 @@ export default function Waveform({
   }, [track, isPaused, trackChange])
 
   return (
-    <div id="waveform">
-      <label htmlFor="track-pos">Track Pos</label>
+    <div className="progress-bar">
+      <label htmlFor="track-pos" title="track-pos"></label>
       <input
         type="range"
         id="track-pos"
@@ -60,8 +61,8 @@ export default function Waveform({
           })
         }}
       />
-      <p>{convertTime(slider)}</p>
-      <p>-{slider < range ? convertTime(range - slider) : '--'}</p>
+      <p>{convertDuration(slider)}</p>
+      <p>-{slider < range ? convertDuration(range - slider) : '--'}</p>
     </div>
   )
 }

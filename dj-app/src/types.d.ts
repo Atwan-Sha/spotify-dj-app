@@ -36,7 +36,7 @@ interface TrackData {
   isActive: boolean
 }
 
-interface Waveform {
+interface ProgressBar {
   track: Track
   player: any
   isActive: boolean

@@ -4,8 +4,8 @@ import '../styles/Player.sass'
 
 import TrackInfo from './TrackInfo.tsx'
 import PlaybackBtns from './PlaybackBtns.tsx'
-import TrackData from './TrackData.tsx'
-import Waveform from './Waveform.tsx'
+// import TrackData from './TrackData.tsx'
+import ProgressBar from './ProgressBar.tsx'
 
 const track_format = {
   name: 'name',
@@ -103,9 +103,7 @@ export default function Player({ token }: { token: string }) {
           setTrackChange={setTrackChange}
         />
 
-        <TrackData track={track} isActive={isActive} />
-
-        <Waveform
+        <ProgressBar
           track={track}
           player={player}
           isActive={isActive}
@@ -113,15 +111,7 @@ export default function Player({ token }: { token: string }) {
           trackChange={trackChange}
           setTrackChange={setTrackChange}
         />
-      </div>
 
-      <div id="state-object">
-        {/* <p>{JSON.stringify(track)}</p> */}
-        {/* <br />
-        <p>{track.name}</p>
-        <p>{track.artists[0].name}</p>
-        <p>{track.album.name}</p>
-        <img src={track.album.images[0].url} alt="" width="200"></img> */}
       </div>
       {/* </React.StrictMode> */}
     </>
