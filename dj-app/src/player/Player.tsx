@@ -8,11 +8,11 @@ import PlaybackBtns from './PlaybackBtns.tsx'
 import ProgressBar from './ProgressBar.tsx'
 
 const track_format = {
-  id: 'xxxx',
+  id: '----',
   name: 'name',
   artists: [{ name: 'artists' }],
   album: {
-    uri: 'xxxx',
+    uri: '----',
     name: 'album',
     images: [{ url: placeholder }],
   },
@@ -20,6 +20,7 @@ const track_format = {
 }
 
 export default function Player({ token }: { token: string }) {
+  
   const [player, setPlayer] = useState(undefined)
   const [isPaused, setPaused] = useState(true)
   const [isActive, setActive] = useState(false)

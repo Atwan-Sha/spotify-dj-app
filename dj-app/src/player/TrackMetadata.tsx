@@ -11,7 +11,7 @@ function convertDuration(t: number): string {
 }
 
 export default function TrackMetadata({ track, token, isActive }: TrackMetadata) {
-  console.log('RENDER TRACKINFO')
+  // console.log('RENDER TRACKINFO')
 
   const [label, setLabel] = useState('label')
   const [relDate, setRelDate] = useState('release date')
@@ -27,7 +27,6 @@ export default function TrackMetadata({ track, token, isActive }: TrackMetadata)
         method: 'GET',
       })
       albumData = await albumData.json()
-      // console.log('albumData:', albumData)
 
       setLabel(albumData.label)
       setRelDate(albumData.release_date)
@@ -45,8 +44,11 @@ export default function TrackMetadata({ track, token, isActive }: TrackMetadata)
       <div className="track-info">
         <span>{track.name}</span>
         <span>{track.album.name}</span>
-        <span>{track.artists[0].name}</span>
-        {/* <span>{track.artists.reduce((allArtists: string, artist: string) => allArtists + `${artist.name}, `)}</span> */}
+        <span>
+          {track.artists
+            .reduce<string>((artists, artist) => artists + `${artist.name}, `, '')
+            .slice(0, -2)}
+        </span>
         <span>{label}, {relDate}</span>
       </div>
       <span className="duration">
