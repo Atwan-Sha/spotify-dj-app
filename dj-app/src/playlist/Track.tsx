@@ -1,14 +1,16 @@
-// import { useState } from 'react'
-// import placeholder from '../assets/cd-cover-placeholder.jpg'
+import { useState } from 'react'
 
 export default function Track({ data, playTrack }: { data: any, playTrack: Function }) {
+  // console.log('TRACK STATE', data)
+  // ! label display bug - failing to reload on render?
+  
+  // const [metadata, setMetadata] = useState(data)
 
   return (
     <>
       <div className="track">
         <img
           className="cover-art"
-          // src={isActive ? data.cover : placeholder}
           src={data.cover}
           alt=""
         />
@@ -25,7 +27,7 @@ export default function Track({ data, playTrack }: { data: any, playTrack: Funct
         <div className="track-info">
           <span>{data.name}</span>
           <span>{data.album}</span>
-          <span>{data.artist}</span>
+          <span>{data.artists}</span>
           <span>{data.label}</span>
         </div>
         <span className="duration">
