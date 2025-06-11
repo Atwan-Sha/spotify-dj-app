@@ -16,7 +16,7 @@ export default function ProgressBar({
   trackChange,
   setTrackChange
 }: ProgressBar) {
-  console.log('RENDER PROGRESSBAR')
+  // console.log('RENDER PROGRESSBAR')
   // console.table(JSON.stringify(track, null, 2))
 
   const [range, setRange] = useState(500)

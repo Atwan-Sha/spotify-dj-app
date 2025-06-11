@@ -1,20 +1,21 @@
 // import React from 'react'
 import { useState, useEffect } from 'react'
 import '../styles/Player.sass'
+import placeholder from '../assets/cd-cover-placeholder.jpg'
 
-import TrackInfo from './TrackInfo.tsx'
+import TrackMetadata from './TrackMetadata.tsx'
 import PlaybackBtns from './PlaybackBtns.tsx'
-// import TrackData from './TrackData.tsx'
 import ProgressBar from './ProgressBar.tsx'
 
 const track_format = {
+  id: 'xxxx',
   name: 'name',
   artists: [{ name: 'artists' }],
   album: {
+    uri: 'xxxx',
     name: 'album',
-    images: [{ url: 'img' }],
+    images: [{ url: placeholder }],
   },
-  id: 'xxxx',
   duration_ms: 0,
 }
 
@@ -81,7 +82,7 @@ export default function Player({ token }: { token: string }) {
       // iframe.remove()
       // console.log(iframe)
       // playerRef.current.disconnect()
-      console.log('CLEANUP')
+      // console.log('CLEANUP')
     }
   }, [])
 
@@ -94,7 +95,7 @@ export default function Player({ token }: { token: string }) {
     <>
       {/* <React.StrictMode> */}
       <div id="player">
-        <TrackInfo track={track} token={token} isActive={isActive} />
+        <TrackMetadata track={track} token={token} isActive={isActive} />
 
         <PlaybackBtns
           player={player}

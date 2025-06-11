@@ -1,11 +1,12 @@
 interface Track {
+  id: string
   name: string
   artists: { name: string }[] //[{ name: 'artists' }],
   album: {
+    uri: string
     name: string
     images: { url: string }[] // [{ url: 'img' }],
   }
-  id: string
   duration_ms: number
 }
 
@@ -18,22 +19,17 @@ interface State {
   disallows: Object
 }
 
-interface PlaybackBtns {
-  player: any
-  isPaused: boolean
-  trackChange: boolean
-  setTrackChange: function
-}
-
-interface TrackInfo {
+interface TrackMetadata {
   track: Track
   token: string
   isActive: boolean
 }
 
-interface TrackData {
-  track: Track
-  isActive: boolean
+interface PlaybackBtns {
+  player: any
+  isPaused: boolean
+  trackChange: boolean
+  setTrackChange: function
 }
 
 interface ProgressBar {

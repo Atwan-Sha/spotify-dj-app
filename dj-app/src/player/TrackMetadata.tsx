@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import placeholder from '../assets/cd-cover-placeholder.jpg'
 import add from '../assets/icon-add.png'
 import share from '../assets/icon-share.png'
 
@@ -11,53 +10,44 @@ function convertDuration(t: number): string {
   return `${min}:${sec < 10 ? `0${sec}` : sec}`
 }
 
-export default function TrackInfo({ track, token, isActive }: TrackInfo) {
+export default function TrackMetadata({ track, token, isActive }: TrackMetadata) {
   console.log('RENDER TRACKINFO')
 
-  const [relDate, setRelDate] = useState('release date')
   const [label, setLabel] = useState('label')
+  const [relDate, setRelDate] = useState('release date')
 
   useEffect(() => {
-    async function getRelDateAndLabel(): Promise<any> {
-      //* get album ID
-      let trackData: any
-      trackData = await fetch(`https://api.spotify.com/v1/tracks/${track.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        method: 'GET',
-      })
-      trackData = await trackData.json()
-
-      //* get rel date and label
+    async function fetchLabelAndRelDate() {
       let albumData: any
-      albumData = await fetch(`https://api.spotify.com/v1/albums/${trackData.album.id}`, {
+      albumData = await fetch(`https://api.spotify.com/v1/albums/${track.album.uri.substring(14)}`, {
+        // substring: extract album id from uri
         headers: {
           Authorization: `Bearer ${token}`,
         },
         method: 'GET',
       })
-
       albumData = await albumData.json()
-      // console.log(albumData)
-      setRelDate(albumData.release_date)
+      // console.log('albumData:', albumData)
+
       setLabel(albumData.label)
+      setRelDate(albumData.release_date)
     }
-    isActive && getRelDateAndLabel()
+    isActive && fetchLabelAndRelDate()
   }, [track.id, isActive])
 
   return (
     <div className="metadata-container">
       <img
         className="cover-art"
-        src={isActive ? track.album.images[0].url : placeholder}
+        src={track.album.images[0].url}
         alt=""
       />
       <div className="track-info">
         <span>{track.name}</span>
         <span>{track.album.name}</span>
         <span>{track.artists[0].name}</span>
-        <span>{relDate}, {label}</span>
+        {/* <span>{track.artists.reduce((allArtists: string, artist: string) => allArtists + `${artist.name}, `)}</span> */}
+        <span>{label}, {relDate}</span>
       </div>
       <span className="duration">
         {convertDuration(track.duration_ms)}

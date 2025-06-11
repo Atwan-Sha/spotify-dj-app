@@ -6,7 +6,7 @@ export default function PlaybackBtns({
   // trackChange,
   setTrackChange
 }: PlaybackBtns) {
-  console.log('RENDER BUTTONS')
+  // console.log('RENDER BUTTONS')
   return (
     <div className="playback-btns">
       {isPaused ? (

@@ -43,7 +43,7 @@ function simplifyPlaylistData(plData: any) {
 
 
 export default function Playlist({ token }: { token: string }) {
-  console.log('RENDER PLAYLIST')
+  // console.log('RENDER PLAYLIST')
 
   const playlistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
 
@@ -63,8 +63,18 @@ export default function Playlist({ token }: { token: string }) {
       playlistData = await playlistData.json()
       // console.log(playlistData.items)
       const playlistTracks = simplifyPlaylistData(playlistData)
-      setTracks(playlistTracks)
 
+      //* get rel date and label
+      // let albumData: any
+      // albumData = await fetch(`https://api.spotify.com/v1/albums/${trackData.album.id}`, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      //   method: 'GET',
+      // })
+      // albumData = await albumData.json()
+
+      setTracks(playlistTracks)
     }
     getPlaylistData()
   }, [])
