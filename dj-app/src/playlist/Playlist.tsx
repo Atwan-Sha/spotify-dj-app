@@ -64,21 +64,24 @@ export default function Playlist({ token }: { token: string }) {
       // console.log(playlistTracks)
 
       //* fetch label for all tracks
-      playlistTracks.forEach(async (track: any) => {
-        let albumData: any
-        albumData = await fetch(`https://api.spotify.com/v1/albums/${track.albumID}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          method: 'GET',
+      // ! review chat-GPT solution
+      const tracksWithLabels = await Promise.all(
+        playlistTracks.map(async (track: any) => {
+          let albumData: any
+          albumData = await fetch(`https://api.spotify.com/v1/albums/${track.albumID}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            method: 'GET',
+          })
+          albumData = await albumData.json()
+          return { ...track, label: albumData.label }
         })
-        albumData = await albumData.json()
-        track.label = albumData.label
-      })
+      )
 
-      // console.log(playlistTracks)
-      setTracks(playlistTracks)
+      setTracks(tracksWithLabels)
     }
+    
     fetchPlaylistItems()
   }, [])
 
