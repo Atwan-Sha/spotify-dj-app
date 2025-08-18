@@ -1,14 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
-export default function Track({ data, playTrack }: { data: any, playTrack: Function }) {
+export default function Track({ data, playTrack, fetchLabel, id }: { data: any, playTrack: Function, fetchLabel: Function, id: number }) {
   // console.log('TRACK STATE', data)
-  // ! label display bug - failing to reload on render?
-  
   // const [metadata, setMetadata] = useState(data)
+  const [label, setLabel] = useState(data.label)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(async ([entry]) => {
+      if (entry.isIntersecting) {
+        console.log(await fetchLabel(data.albumID))
+        // setLabel(await fetchLabel(data.albumID))
+        if (ref.current) observer.unobserve(ref.current)
+      }
+      console.log(entry.isIntersecting, id)
+    }, { threshold: 1 })
+
+    if (ref.current) observer.observe(ref.current)
+
+    return () => {
+      // if (ref.current) observer.unobserve(ref.current)
+    }
+  }, [])
+
 
   return (
     <>
-      <div className="track">
+      <div className="track" ref={ref}>
         <img
           className="cover-art"
           src={data.cover}
@@ -28,7 +46,7 @@ export default function Track({ data, playTrack }: { data: any, playTrack: Funct
           <span>{data.name}</span>
           <span>{data.album}</span>
           <span>{data.artists}</span>
-          <span>{data.label}</span>
+          <span>{label}</span>
         </div>
         <span className="duration">
           {data.duration}

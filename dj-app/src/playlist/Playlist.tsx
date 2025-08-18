@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import '../styles/Playlist.sass'
 import placeholder from '../assets/cd-cover-placeholder.jpg'
 import Track from './Track.tsx'
 
 //* TEST DATA
-const mockTrackArr = [
+const testTrackArr = [
   { id: 'xxxx', cover: placeholder, name: 'Track 1', artists: 'Artist 1', album: 'Album 1', albumID: '----', label: 'Label 1', duration: '4:20' },
   { id: 'xxxx', cover: placeholder, name: 'Track 2', artists: 'Artist 2', album: 'Album 2', albumID: '----', label: 'Label 2', duration: '4:22' },
   { id: 'xxxx', cover: placeholder, name: 'Track 3', artists: 'Artist 3', album: 'Album 3', albumID: '----', label: 'Label 3', duration: '4:23' },
 ]
+const largeTestTrackArr = Array(50).fill(testTrackArr[0])
+
 const playlistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
 
 //* utils 
@@ -22,7 +24,6 @@ function convertDuration(t: number): string {
 
 function simplifyPlaylistData(plData: any) {
   let trackArr = plData.items.map((item: any) => {
-    // ! label display bug in Track comp
     // ? fix text-wrap animation
     // ? custom separate hook/component for data fetching
     return {
@@ -48,7 +49,8 @@ function simplifyPlaylistData(plData: any) {
 export default function Playlist({ token }: { token: string }) {
   // console.log('RENDER PLAYLIST')
 
-  const [tracks, setTracks] = useState(mockTrackArr)
+  const [tracks, setTracks] = useState(largeTestTrackArr)
+  // const [scroll, setScroll] = useState(false)
 
   useEffect(() => {
     async function fetchPlaylistItems() {
@@ -63,25 +65,30 @@ export default function Playlist({ token }: { token: string }) {
       const playlistTracks = simplifyPlaylistData(playlistItems)
       // console.log(playlistTracks)
 
-      //* fetch label for all tracks
+      //* fetch label for all tracks 
+      // ? use immutable state?
+      // ? partial loading of tracks on scroll? To not overwhelm the API
       // ! review chat-GPT solution
-      const tracksWithLabels = await Promise.all(
-        playlistTracks.map(async (track: any) => {
-          let albumData: any
-          albumData = await fetch(`https://api.spotify.com/v1/albums/${track.albumID}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            method: 'GET',
-          })
-          albumData = await albumData.json()
-          return { ...track, label: albumData.label }
-        })
-      )
 
-      setTracks(tracksWithLabels)
+      // const tracksWithLabels = await Promise.all(
+      //   playlistTracks.map(async (track: any) => {
+      //     let albumData: any
+      //     albumData = await fetch(`https://api.spotify.com/v1/albums/${track.albumID}`, {
+      //       headers: {
+      //         Authorization: `Bearer ${token}`,
+      //       },
+      //       method: 'GET',
+      //     })
+      //     albumData = await albumData.json()
+      //     return { ...track, label: albumData.label }
+      //   })
+      // )
+
+      setTracks(playlistTracks)
+      // setTracks(tracksWithLabels)
     }
-    
+
+
     fetchPlaylistItems()
   }, [])
 
@@ -102,11 +109,28 @@ export default function Playlist({ token }: { token: string }) {
     console.log(res)
   }
 
+  async function fetchLabelOnScroll(albumID: string) {
+    let albumData: any
+    albumData = await fetch(`https://api.spotify.com/v1/albums/${albumID}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      method: 'GET',
+    })
+    albumData = await albumData.json()
+    return albumData.label
+  }
+  
+  // function fetchLabel() {
+  //   console.log('visible')
+  //   return 'ABCDE'
+  // }
+
   return (
     <>
       <div id="playlist">
         {/* <Track data={tracks[0]} playTrack={playTrackFromPlaylist} /> */}
-        {tracks.map((data, i) => (<Track data={data} playTrack={playTrackFromPlaylist} key={i} />))}
+        {tracks.map((data, i) => (<Track data={data} playTrack={playTrackFromPlaylist} fetchLabel={fetchLabelOnScroll} key={i} id={i} />))}
       </div>
     </>
   )

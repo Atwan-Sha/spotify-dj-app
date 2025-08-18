@@ -46,7 +46,7 @@ export default function TrackMetadata({ track, token, isActive }: TrackMetadata)
         <span>{track.album.name}</span>
         <span>
           {track.artists
-            .reduce<string>((artists: string, artist) => artists + `${artist.name}, `, '')
+            .reduce((artists: string, artist) => artists + `${artist.name}, `, '')
             .slice(0, -2)}
         </span>
         <span>{label}, {relDate}</span>
