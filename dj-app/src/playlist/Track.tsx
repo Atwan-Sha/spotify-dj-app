@@ -2,20 +2,17 @@ import { useState, useEffect, useRef } from 'react'
 
 export default function Track({ data, playTrack, fetchLabel, id }: { data: any, playTrack: Function, fetchLabel: Function, id: number }) {
   // console.log('TRACK STATE', data)
+  // console.log('RENDER TRACK', id)
   // const [metadata, setMetadata] = useState(data)
   const [label, setLabel] = useState(data.label)
   const elementRef = useRef<HTMLDivElement>(null)
-  const albumIDRef = useRef<string | undefined>()
 
   useEffect(() => {
-    albumIDRef.current = data.albumID
-  }, [data.albumID])
+    if (!data.albumID) return
 
-  useEffect(() => {
     const observer = new IntersectionObserver(async ([entry]) => {
       if (entry.isIntersecting) {
-        // console.log(await fetchLabel(data.albumID))
-        setLabel(await fetchLabel(albumIDRef.current))
+        setLabel(await fetchLabel(data.albumID))
         if (elementRef.current) observer.unobserve(elementRef.current)
       }
       console.log(entry.isIntersecting, id)
@@ -26,7 +23,7 @@ export default function Track({ data, playTrack, fetchLabel, id }: { data: any, 
     return () => {
       observer.disconnect()
     }
-  }, [])
+  }, [data.albumID])
 
 
   return (
