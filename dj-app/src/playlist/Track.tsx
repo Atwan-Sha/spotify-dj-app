@@ -4,29 +4,34 @@ export default function Track({ data, playTrack, fetchLabel, id }: { data: any, 
   // console.log('TRACK STATE', data)
   // const [metadata, setMetadata] = useState(data)
   const [label, setLabel] = useState(data.label)
-  const ref = useRef<HTMLDivElement>(null)
+  const elementRef = useRef<HTMLDivElement>(null)
+  const albumIDRef = useRef<string | undefined>()
+
+  useEffect(() => {
+    albumIDRef.current = data.albumID
+  }, [data.albumID])
 
   useEffect(() => {
     const observer = new IntersectionObserver(async ([entry]) => {
       if (entry.isIntersecting) {
-        console.log(await fetchLabel(data.albumID))
-        // setLabel(await fetchLabel(data.albumID))
-        if (ref.current) observer.unobserve(ref.current)
+        // console.log(await fetchLabel(data.albumID))
+        setLabel(await fetchLabel(albumIDRef.current))
+        if (elementRef.current) observer.unobserve(elementRef.current)
       }
       console.log(entry.isIntersecting, id)
     }, { threshold: 1 })
 
-    if (ref.current) observer.observe(ref.current)
+    if (elementRef.current) observer.observe(elementRef.current)
 
     return () => {
-      // if (ref.current) observer.unobserve(ref.current)
+      observer.disconnect()
     }
   }, [])
 
 
   return (
     <>
-      <div className="track" ref={ref}>
+      <div className="track" ref={elementRef}>
         <img
           className="cover-art"
           src={data.cover}
