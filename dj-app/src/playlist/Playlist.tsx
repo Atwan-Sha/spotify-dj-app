@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import '../styles/Playlist.sass'
 import placeholder from '../assets/cd-cover-placeholder.jpg'
 import Track from './Track.tsx'
@@ -67,8 +67,10 @@ export default function Playlist({ token }: { token: string }) {
 
       //* fetch label for all tracks 
       // ? use immutable state?
-      // ? partial loading of tracks on scroll? To not overwhelm the API
-      // ! review chat-GPT solution
+
+      // ? lazy-load tracks fixed
+      // ? create loading cache instead?
+      // ? review chat-GPT solution
 
       // const tracksWithLabels = await Promise.all(
       //   playlistTracks.map(async (track: any) => {
@@ -87,7 +89,6 @@ export default function Playlist({ token }: { token: string }) {
       setTracks(playlistTracks)
       // setTracks(tracksWithLabels)
     }
-
 
     fetchPlaylistItems()
   }, [])
