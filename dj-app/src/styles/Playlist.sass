@@ -3,88 +3,101 @@
     padding: 0
     margin: 0
 
-#playlist
-    display: flex
-    flex-direction: column
-    align-items: center
-    width: 500px
-    height: 95vh
+#playlist-container
+    width: 600px
+    height: 90vh
     margin-right: 20px
     border: 3px solid grey
     border-radius: 8px
+    background-color: #353535
 
-    overflow-y: auto
-    // gap: 1rem
+    button
+        margin: 10px
 
-    // scrollbar-width: thin
-    scrollbar-color: #555 #111
 
-    &::-webkit-scrollbar
-        width: 8px
-
-    &::-webkit-scrollbar-thumb
-        background-color: #555
-        border-radius: 4px
-
-    &::-webkit-scrollbar-track
-        background-color: #111
-
-    .track
+    .playlist
         display: flex
-        justify-content: space-between
-        width: 95%
-        height: 60px
-        margin: 5px
-        border: 1px solid white
+        flex-direction: column
+        align-items: center
+        width: 90%
+        height: 80vh
+        margin: 0 auto
+        border: 3px solid grey
         border-radius: 8px
-        font-size: 0.7em
-        // inline-size: 300px
-        // text-wrap: nowrap
-        // overflow: hidden
-        
-        .cover-art
-            height: 100%
-            width: auto
-            aspect-ratio: 1
-            border-radius: 8px
-            &:hover
-                // opacity: 0.2
-        .play
-            height: 58px 
-            width: 60px
-            // height: 100%
-            // aspect-ratio: 1
-            position: relative
-            left: -55px
-            border: none
-            border-radius: 8px
-            font-size: 1.5em
-            // top: 50%
-            // left: 50%
-            // transform: translate(-50%, -50%)
-            opacity: 0
-            transition: opacity 0.3s ease
-            // cursor: pointer
-            &:hover
-                opacity: 0.9
+        background-color: #202020
 
-        .track-info
-            width: 70%
-            max-width: 290px
-            inline-size: 300px
-            // height: 2em
+        overflow-y: auto
+        // gap: 1rem
+
+        // scrollbar-width: thin
+        scrollbar-color: #555 #111
+
+        &::-webkit-scrollbar
+            width: 8px
+
+        &::-webkit-scrollbar-thumb
+            background-color: #555
+            border-radius: 4px
+
+        &::-webkit-scrollbar-track
+            background-color: #111
+
+        .track
             display: flex
-            justify-content: space-evenly
-            flex-wrap: wrap
-            text-align: left
-            position: relative
-            left: -55px
-            span
-                width: 100px
-                text-wrap: nowrap
-                overflow: hidden
-        
-        .duration
-            height: 100%
-            width: 50px
-            line-height: 55px
+            justify-content: space-between
+            width: 95%
+            height: 60px
+            margin: 5px
+            border: 1px solid white
+            border-radius: 8px
+            font-size: 0.7em
+            // inline-size: 300px
+            // text-wrap: nowrap
+            // overflow: hidden
+
+            .cover-art
+                height: 100%
+                width: auto
+                aspect-ratio: 1
+                border-radius: 8px
+                &:hover
+                    // opacity: 0.2
+            .play
+                height: 58px
+                width: 60px
+                // height: 100%
+                // aspect-ratio: 1
+                position: relative
+                left: -55px
+                border: none
+                border-radius: 8px
+                font-size: 1.5em
+                // top: 50%
+                // left: 50%
+                // transform: translate(-50%, -50%)
+                opacity: 0
+                transition: opacity 0.3s ease
+                // cursor: pointer
+                &:hover
+                    opacity: 0.9
+
+            .track-info
+                width: 70%
+                max-width: 290px
+                inline-size: 300px
+                // height: 2em
+                display: flex
+                justify-content: space-evenly
+                flex-wrap: wrap
+                text-align: left
+                position: relative
+                left: -55px
+                span
+                    width: 100px
+                    text-wrap: nowrap
+                    overflow: hidden
+
+            .duration
+                height: 100%
+                width: 50px
+                line-height: 55px

@@ -124,7 +124,7 @@ export default function Playlist({ token }: { token: string }) {
 
   return (
     <>
-      <div id="playlist">
+      <div className="playlist">
         {/* <Track data={tracks[0]} playTrack={playTrackFromPlaylist} /> */}
         {tracks.map((data, i) => (<Track data={data} playTrack={playTrackFromPlaylist} fetchLabel={fetchLabelOnScroll} key={i} id={i} />))}
       </div>

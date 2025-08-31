@@ -14,7 +14,7 @@ export default function App() {
 
   return (
     <>
-      <Playlist token={token} />
+      <PlaylistContainer token={token} />
       <Player token={token} />
     </>
   )
