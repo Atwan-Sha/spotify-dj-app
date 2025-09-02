@@ -15,7 +15,7 @@ export default function Track({ data, playTrack, fetchLabel, id }: { data: any, 
         setLabel(await fetchLabel(data.albumID))
         if (elementRef.current) observer.unobserve(elementRef.current)
       }
-      console.log(entry.isIntersecting, id)
+      // console.log(entry.isIntersecting, id)
     }, { threshold: 1 })
 
     if (elementRef.current) observer.observe(elementRef.current)

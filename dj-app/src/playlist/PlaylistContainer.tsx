@@ -6,10 +6,29 @@ const testPlaylistArr = ['PLAYLIST 0', 'PLAYLIST 1', 'PLAYLIST 2']
 
 export default function PlaylistContainer({ token }: { token: string }) {
   const [view, setView] = useState('PLAYLIST')
+  const [playlists, setPlaylists] = useState(testPlaylistArr)
+
+  useEffect(() => {
+    async function fetchUserPlaylists() {
+      let playlists: any
+      playlists = await fetch(`https://api.spotify.com/v1/me/playlists?limit=20&offset=0`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        method: 'GET',
+      })
+      playlists = await playlists.json()
+      // console.log('playlists: ', playlists.items)
+
+      setPlaylists(playlists.items)
+
+
+    }
+    fetchUserPlaylists()
+  }, [])
 
 
 
-  
   return (
     <>
       <div id="playlist-container">
@@ -22,20 +41,20 @@ export default function PlaylistContainer({ token }: { token: string }) {
         >
           {view}
         </button>
-        {view == 'PLAYLIST' ? <Playlist token={token} /> : testPlaylistArr.map((data, i) => (<PlaylistWidget data={data} key={i} />))}
+        {view == 'PLAYLIST' ?
+          <Playlist token={token} /> :
+          playlists.map((item, i) => (<PlaylistWidget data={item.name} key={i} />))
+        }
       </div>
     </>
   )
 }
 
-function PlaylistWidget({data}: any) {
-
-
-
-
+function PlaylistWidget({ data }: any) {
+  // console.log(data)
   return (
     <div>
-      PLAYLIST WIDGET, {data}
+      PL: {data}
     </div>
   )
 }
