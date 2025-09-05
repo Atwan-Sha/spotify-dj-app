@@ -1,6 +1,15 @@
 import { useState, useEffect, useRef } from 'react'
 
-export default function Track({ data, playTrack, fetchLabel, id }: { data: any, playTrack: Function, fetchLabel: Function, id: number }) {
+export default function Track({
+  data,
+  playTrack,
+  fetchLabel,
+}: {
+  data: any,
+  playTrack: Function,
+  fetchLabel: Function,
+  id: number
+}) {
   // console.log('TRACK STATE', data)
   // console.log('RENDER TRACK', id)
   // const [metadata, setMetadata] = useState(data)

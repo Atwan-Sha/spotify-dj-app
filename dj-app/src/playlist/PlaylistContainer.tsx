@@ -1,33 +1,53 @@
 import { useState, useEffect } from 'react'
 import '../styles/Playlist.sass'
+import placeholder from '../assets/cd-cover-placeholder.jpg'
 import Playlist from './Playlist.tsx'
 
-const testPlaylistArr = ['PLAYLIST 0', 'PLAYLIST 1', 'PLAYLIST 2']
+// const testPlaylistArr = ['PLAYLIST 0', 'PLAYLIST 1', 'PLAYLIST 2'
+
+//* TEST DATA
+const testPlaylistArr = [
+  { id: 'xxxx', cover: placeholder, name: 'Name 1', tracks: '0', owner: 'User 1', description: 'abcdef' },
+  { id: 'xxxx', cover: placeholder, name: 'Name 2', tracks: '0', owner: 'User 2', description: 'abcdef' },
+  { id: 'xxxx', cover: placeholder, name: 'Name 3', tracks: '0', owner: 'User 3', description: 'abcdef' },
+]
+
+function simplifyPlaylistContainerData(plData: any) {
+  let playlistArr = plData.items.map((item: any) => {
+    return {
+      id: item.id,
+      cover: item.images[0].url,
+      name: item.name,
+      tracks: item.tracks.total,
+      owner: item.owner.external_urls.spotify,
+      description: item.description,
+    }
+  })
+  return playlistArr
+}
+
 
 export default function PlaylistContainer({ token }: { token: string }) {
-  const [view, setView] = useState('PLAYLIST')
+  const [view, setView] = useState('SELECT')
   const [playlists, setPlaylists] = useState(testPlaylistArr)
 
   useEffect(() => {
     async function fetchUserPlaylists() {
-      let playlists: any
-      playlists = await fetch(`https://api.spotify.com/v1/me/playlists?limit=20&offset=0`, {
+      let userPlaylists: any
+      userPlaylists = await fetch(`https://api.spotify.com/v1/me/playlists?limit=10&offset=0`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
         method: 'GET',
       })
-      playlists = await playlists.json()
-      // console.log('playlists: ', playlists.items)
+      userPlaylists = await userPlaylists.json()
+      const playlistCardData = simplifyPlaylistContainerData(userPlaylists)
+      console.log('playlistsCardData: ', playlistCardData)
 
-      setPlaylists(playlists.items)
-
-
+      setPlaylists(playlistCardData)
     }
     fetchUserPlaylists()
   }, [])
-
-
 
   return (
     <>
@@ -43,18 +63,39 @@ export default function PlaylistContainer({ token }: { token: string }) {
         </button>
         {view == 'PLAYLIST' ?
           <Playlist token={token} /> :
-          playlists.map((item, i) => (<PlaylistWidget data={item.name} key={i} />))
+          playlists.map((data, i) => (<PlaylistCard data={data} key={i} />))
+          //? re-rendering playlist comp on switch (b/c child comp?)
         }
       </div>
     </>
   )
 }
 
-function PlaylistWidget({ data }: any) {
+
+function PlaylistCard({ data }: any) {
   // console.log(data)
   return (
-    <div>
-      PL: {data}
+    <div className="playlist-card">
+      <img
+        className="cover-art"
+        src={data.cover}
+        alt=""
+      />
+      {/* <button
+        type="button"
+        className="btn play"
+        onClick={() => {
+          console.log('play track id:', data.id)
+          playTrack(data.id)
+        }}
+      >
+        &#9654;
+      </button> */}
+      <div className="playlist-info">
+        <span>{data.name}</span>
+        <span>{data.tracks}</span>
+        <span>{data.description}</span>
+      </div>
     </div>
   )
 }
