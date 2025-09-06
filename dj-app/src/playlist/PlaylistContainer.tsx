@@ -50,24 +50,27 @@ export default function PlaylistContainer({ token }: { token: string }) {
   }, [])
 
   return (
-    <>
-      <div id="playlist-container">
-        <button
-          type="button"
-          className="btn view"
-          onClick={() => {
-            setView(view == 'PLAYLIST' ? 'SELECT' : 'PLAYLIST')
-          }}
-        >
-          {view}
-        </button>
-        {view == 'PLAYLIST' ?
-          <Playlist token={token} /> :
-          playlists.map((data, i) => (<PlaylistCard data={data} key={i} />))
-          //? re-rendering playlist comp on switch (b/c child comp?)
-        }
+    <div id="playlist-container">
+      <button
+        type="button"
+        className="btn view"
+        onClick={() => {
+          setView(view == 'PLAYLIST' ? 'SELECT' : 'PLAYLIST')
+        }}
+      >
+        {view}
+      </button>
+
+      <div style={{ display: view == 'PLAYLIST' ? 'block' : 'none' }}>
+        <Playlist token={token} />
       </div>
-    </>
+
+      <div style={{ display: view == 'SELECT' ? 'block' : 'none' }}>
+        {playlists.map((data, i) => (
+          <PlaylistCard data={data} key={i} />
+        ))}
+      </div>
+    </div>
   )
 }
 

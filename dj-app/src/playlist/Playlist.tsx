@@ -47,8 +47,6 @@ function simplifyPlaylistData(plData: any) {
 
 
 export default function Playlist({ token }: { token: string }) {
-  // console.log('RENDER PLAYLIST')
-
   const [tracks, setTracks] = useState(largeTestTrackArr)
   // const [scroll, setScroll] = useState(false)
 
