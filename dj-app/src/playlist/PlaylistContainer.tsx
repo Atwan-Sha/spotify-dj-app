@@ -12,6 +12,8 @@ const testPlaylistArr = [
   { id: 'xxxx', cover: placeholder, name: 'Name 3', tracks: '0', owner: 'User 3', description: 'abcdef' },
 ]
 
+const testPlaylistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
+
 function simplifyPlaylistContainerData(plData: any) {
   let playlistArr = plData.items.map((item: any) => {
     return {
@@ -30,6 +32,7 @@ function simplifyPlaylistContainerData(plData: any) {
 export default function PlaylistContainer({ token }: { token: string }) {
   const [view, setView] = useState('SELECT')
   const [playlists, setPlaylists] = useState(testPlaylistArr)
+  const [selected, setSelected] = useState(testPlaylistID)
 
   useEffect(() => {
     async function fetchUserPlaylists() {
@@ -42,12 +45,18 @@ export default function PlaylistContainer({ token }: { token: string }) {
       })
       userPlaylists = await userPlaylists.json()
       const playlistCardData = simplifyPlaylistContainerData(userPlaylists)
-      console.log('playlistsCardData: ', playlistCardData)
+      // console.log('playlistsCardData: ', playlistCardData)
 
       setPlaylists(playlistCardData)
     }
     fetchUserPlaylists()
   }, [])
+
+  function selectPlaylist(id: string) {
+    console.log('select playlist:', id)
+    setSelected(id)
+    setView('PLAYLIST')
+  }
 
   return (
     <div id="playlist-container">
@@ -62,12 +71,12 @@ export default function PlaylistContainer({ token }: { token: string }) {
       </button>
 
       <div style={{ display: view == 'PLAYLIST' ? 'block' : 'none' }}>
-        <Playlist token={token} />
+        <Playlist token={token} id={selected} />
       </div>
 
       <div style={{ display: view == 'SELECT' ? 'block' : 'none' }}>
         {playlists.map((data, i) => (
-          <PlaylistCard data={data} key={i} />
+          <PlaylistCard data={data} select={selectPlaylist} key={i} />
         ))}
       </div>
     </div>
@@ -75,8 +84,7 @@ export default function PlaylistContainer({ token }: { token: string }) {
 }
 
 
-function PlaylistCard({ data }: any) {
-  // console.log(data)
+function PlaylistCard({ data, select }: any) {
   return (
     <div className="playlist-card">
       <img
@@ -84,16 +92,15 @@ function PlaylistCard({ data }: any) {
         src={data.cover}
         alt=""
       />
-      {/* <button
+      <button
         type="button"
         className="btn play"
         onClick={() => {
-          console.log('play track id:', data.id)
-          playTrack(data.id)
+          select(data.id)
         }}
       >
         &#9654;
-      </button> */}
+      </button>
       <div className="playlist-info">
         <span>{data.name}</span>
         <span>{data.tracks}</span>

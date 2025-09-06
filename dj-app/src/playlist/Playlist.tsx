@@ -11,7 +11,7 @@ const testTrackArr = [
 ]
 const largeTestTrackArr = Array(50).fill(testTrackArr[0])
 
-const playlistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
+const testPlaylistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
 
 //* utils 
 function convertDuration(t: number): string {
@@ -46,14 +46,15 @@ function simplifyPlaylistData(plData: any) {
 }
 
 
-export default function Playlist({ token }: { token: string }) {
+export default function Playlist({ token, id }: { token: string, id: string }) {
   const [tracks, setTracks] = useState(largeTestTrackArr)
-  // const [scroll, setScroll] = useState(false)
+  
+  console.log('render playlist: ', id)
 
   useEffect(() => {
     async function fetchPlaylistItems() {
       let playlistItems: any
-      playlistItems = await fetch(`https://api.spotify.com/v1/playlists/${playlistID}/tracks`, {
+      playlistItems = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks?offset=0&limit=100`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -61,7 +62,8 @@ export default function Playlist({ token }: { token: string }) {
       })
       playlistItems = await playlistItems.json()
       const playlistTracks = simplifyPlaylistData(playlistItems)
-      // console.log(playlistTracks)
+      console.log(playlistItems)
+      console.log(playlistTracks.length)
 
       //* fetch label for all tracks 
       // ? use immutable state?
@@ -89,12 +91,12 @@ export default function Playlist({ token }: { token: string }) {
     }
 
     fetchPlaylistItems()
-  }, [])
+  }, [id])
 
-  async function playTrackFromPlaylist(id: string) {
+  async function playTrackFromPlaylist(trackID: string) {
     const reqBody = {
-      context_uri: `spotify:playlist:${playlistID}`,
-      offset: { uri: `spotify:track:${id}` },
+      context_uri: `spotify:playlist:${id}`,
+      offset: { uri: `spotify:track:${trackID}` },
       position_ms: 0
     }
     let res = await fetch(`https://api.spotify.com/v1/me/player/play`, {
