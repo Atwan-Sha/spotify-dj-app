@@ -1,18 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
+import { playTrackFromPlaylist, fetchLabelOnScroll } from './apiCalls'
 
 export default function Track({
+  token,
   data,
-  playTrack,
-  fetchLabel,
+  playlistID
 }: {
+  token: string,
   data: any,
-  playTrack: Function,
-  fetchLabel: Function,
+  playlistID: string,
   id: number
 }) {
-  // console.log('TRACK STATE', data)
-  // console.log('RENDER TRACK', id)
-  // const [metadata, setMetadata] = useState(data)
   const [label, setLabel] = useState(data.label)
   const elementRef = useRef<HTMLDivElement>(null)
 
@@ -21,10 +19,9 @@ export default function Track({
 
     const observer = new IntersectionObserver(async ([entry]) => {
       if (entry.isIntersecting) {
-        setLabel(await fetchLabel(data.albumID))
+        setLabel(await fetchLabelOnScroll(token, data.albumID))
         if (elementRef.current) observer.unobserve(elementRef.current)
       }
-      // console.log(entry.isIntersecting, id)
     }, { threshold: 1 })
 
     if (elementRef.current) observer.observe(elementRef.current)
@@ -48,7 +45,7 @@ export default function Track({
           className="btn play"
           onClick={() => {
             console.log('play track id:', data.id)
-            playTrack(data.id)
+            playTrackFromPlaylist(token, playlistID, data.id)
           }}
         >
           &#9654;

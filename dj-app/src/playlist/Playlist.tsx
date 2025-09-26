@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import '../styles/Playlist.sass'
 import placeholder from '../assets/cd-cover-placeholder.jpg'
 import Track from './Track.tsx'
+import { fetchPlaylistItems } from './apiCalls.ts'
 
 //* TEST DATA
 const testTrackArr = [
@@ -10,93 +11,20 @@ const testTrackArr = [
   { id: 'xxxx', cover: placeholder, name: 'Track 3', artists: 'Artist 3', album: 'Album 3', albumID: '----', label: 'Label 3', duration: '4:23' },
 ]
 const largeTestTrackArr = Array(50).fill(testTrackArr[0])
-
 const testPlaylistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
 
-//* utils 
-function convertDuration(t: number): string {
-  //* millis to min:sec
-  t /= 1000
-  const sec = Math.round(t % 60)
-  const min = Math.floor(t / 60)
-  return `${min}:${sec < 10 ? `0${sec}` : sec}`
-}
 
-function simplifyPlaylistData(plData: any) {
-  let trackArr = plData.items.map((item: any) => {
-    // ? fix text-wrap animation
-    // ? custom separate hook/component for data fetching
-    return {
-      id: item.track.id,
-      cover: item.track.album.images[0].url,
-      name: item.track.name,
-      artists:
-        item.track.artists
-          .reduce((artists: string, artist: any) => artists + `${artist.name}, `, '')
-          .slice(0, -2),
-      album: item.track.album.name,
-      albumID: item.track.album.id,
-      label: '----',
-      duration: convertDuration(item.track.duration_ms)
-    }
-  })
-  // .slice(0, 14)
-  // console.log(trackArr)
-  return trackArr
-}
-
-
-export default function Playlist({ token, id }: { token: string, id: string }) {
+export default function Playlist({ token, playlistID }: { token: string, playlistID: string }) {
   const [tracks, setTracks] = useState(largeTestTrackArr)
-
-  console.log('render playlist: ', id)
+  console.log('render playlist: ', playlistID)
 
   useEffect(() => {
-    async function fetchPlaylistItems() {
-      let playlistItems: any
-      playlistItems = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks?offset=0&limit=100`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        method: 'GET',
-      })
-      playlistItems = await playlistItems.json()
-      const playlistTracks = simplifyPlaylistData(playlistItems)
-      setTracks(playlistTracks)
+    async function apiCall() {
+      setTracks(await fetchPlaylistItems(token, playlistID))
     }
-    
-    fetchPlaylistItems()
+    apiCall()
+  }, [playlistID])
 
-  }, [id])
-
-  async function playTrackFromPlaylist(trackID: string) {
-    const reqBody = {
-      context_uri: `spotify:playlist:${id}`,
-      offset: { uri: `spotify:track:${trackID}` },
-      position_ms: 0
-    }
-    let res = await fetch(`https://api.spotify.com/v1/me/player/play`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      method: 'PUT',
-      body: JSON.stringify(reqBody)
-    })
-    console.log(res)
-  }
-
-  async function fetchLabelOnScroll(albumID: string) {
-    let albumData: any
-    albumData = await fetch(`https://api.spotify.com/v1/albums/${albumID}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      method: 'GET',
-    })
-    albumData = await albumData.json()
-    return albumData.label
-  }
 
   return (
     <>
@@ -104,9 +32,9 @@ export default function Playlist({ token, id }: { token: string, id: string }) {
         {/* <Track data={tracks[0]} playTrack={playTrackFromPlaylist} /> */}
         {tracks.map((data, i) => (
           <Track
+            token={token}
             data={data}
-            playTrack={playTrackFromPlaylist}
-            fetchLabel={fetchLabelOnScroll}
+            playlistID={playlistID}
             key={i}
             id={i}
           />))}

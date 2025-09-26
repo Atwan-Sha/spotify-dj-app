@@ -49,12 +49,12 @@ export default function PlaylistContainer({ token }: { token: string }) {
     }
 
     fetchUserPlaylists()
-    
+
   }, [])
 
-  function selectPlaylist(id: string) {
-    console.log('select playlist:', id)
-    setSelected(id)
+  function selectPlaylist(playlistID: string) {
+    console.log('select playlist:', playlistID)
+    setSelected(playlistID)
     setView('PLAYLIST')
   }
 
@@ -71,7 +71,7 @@ export default function PlaylistContainer({ token }: { token: string }) {
       </button>
 
       <div style={{ display: view == 'PLAYLIST' ? 'block' : 'none' }}>
-        <Playlist token={token} id={selected} />
+        <Playlist token={token} playlistID={selected} />
       </div>
 
       <div style={{ display: view == 'SELECT' ? 'block' : 'none' }}>
@@ -85,6 +85,7 @@ export default function PlaylistContainer({ token }: { token: string }) {
 
 
 function PlaylistCard({ data, select }: any) {
+  console.log('render card')
   return (
     <div className="playlist-card">
       <img
