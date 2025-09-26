@@ -45,11 +45,11 @@ export default function PlaylistContainer({ token }: { token: string }) {
       })
       userPlaylists = await userPlaylists.json()
       const playlistCardData = simplifyPlaylistContainerData(userPlaylists)
-      // console.log('playlistsCardData: ', playlistCardData)
-
       setPlaylists(playlistCardData)
     }
+
     fetchUserPlaylists()
+    
   }, [])
 
   function selectPlaylist(id: string) {

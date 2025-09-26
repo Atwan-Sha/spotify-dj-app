@@ -48,7 +48,7 @@ function simplifyPlaylistData(plData: any) {
 
 export default function Playlist({ token, id }: { token: string, id: string }) {
   const [tracks, setTracks] = useState(largeTestTrackArr)
-  
+
   console.log('render playlist: ', id)
 
   useEffect(() => {
@@ -62,35 +62,11 @@ export default function Playlist({ token, id }: { token: string, id: string }) {
       })
       playlistItems = await playlistItems.json()
       const playlistTracks = simplifyPlaylistData(playlistItems)
-      console.log(playlistItems)
-      console.log(playlistTracks.length)
-
-      //* fetch label for all tracks 
-      // ? use immutable state?
-
-      // ? lazy-load tracks fixed
-      // ? create loading cache instead?
-      // ? review chat-GPT solution
-
-      // const tracksWithLabels = await Promise.all(
-      //   playlistTracks.map(async (track: any) => {
-      //     let albumData: any
-      //     albumData = await fetch(`https://api.spotify.com/v1/albums/${track.albumID}`, {
-      //       headers: {
-      //         Authorization: `Bearer ${token}`,
-      //       },
-      //       method: 'GET',
-      //     })
-      //     albumData = await albumData.json()
-      //     return { ...track, label: albumData.label }
-      //   })
-      // )
-
       setTracks(playlistTracks)
-      // setTracks(tracksWithLabels)
     }
-
+    
     fetchPlaylistItems()
+
   }, [id])
 
   async function playTrackFromPlaylist(trackID: string) {
