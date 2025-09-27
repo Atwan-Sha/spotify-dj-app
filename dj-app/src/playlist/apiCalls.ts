@@ -1,4 +1,3 @@
-
 //* utils
 function convertDuration(t: number): string {
   //* millis to min:sec
@@ -29,24 +28,53 @@ function simplifyPlaylistData(plData: any) {
   return trackArr
 }
 
+//? generic API call function
+async function spotifyApiCall(token: string, endpoint: string) {
+  const res = await fetch(`https://api.spotify.com/v1/${endpoint}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    method: 'GET',
+  })
+
+  if (!res.ok) {
+    const errorBody = await res.text()
+    throw new Error(
+      `Spotify API error: ${res.status} ${res.statusText} - ${errorBody}`
+    )
+  }
+
+  return res.json()
+}
+
 //* API calls
 export async function fetchPlaylistItems(token: string, playlistID: string) {
-  let playlistItems: any
-  playlistItems = await fetch(
-    `https://api.spotify.com/v1/playlists/${playlistID}/tracks?offset=0&limit=100`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      method: 'GET',
-    }
-  )
-  playlistItems = await playlistItems.json()
+  const playlistItems = await spotifyApiCall(token, `playlists/${playlistID}/tracks?offset=0&limit=100`)
   const playlistTracks = simplifyPlaylistData(playlistItems)
   return playlistTracks
 }
 
-export async function playTrackFromPlaylist(token: string, playlistID: string, trackID: string) {
+// export async function fetchPlaylistItems(token: string, playlistID: string) {
+//   let playlistItems: any
+//   playlistItems = await fetch(
+//     `https://api.spotify.com/v1/playlists/${playlistID}/tracks?offset=0&limit=100`,
+//     {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//       method: 'GET',
+//     }
+//   )
+//   playlistItems = await playlistItems.json()
+//   const playlistTracks = simplifyPlaylistData(playlistItems)
+//   return playlistTracks
+// }
+
+export async function playTrackFromPlaylist(
+  token: string,
+  playlistID: string,
+  trackID: string
+) {
   const reqBody = {
     context_uri: `spotify:playlist:${playlistID}`,
     offset: { uri: `spotify:track:${trackID}` },
