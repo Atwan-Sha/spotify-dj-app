@@ -28,9 +28,12 @@ function simplifyPlaylistData(plData: any) {
   return trackArr
 }
 
-
 //* generic API call function
-export async function spotifyApiCall<T>(token: string, endpoint: string, options: RequestInit = {}): Promise<T> {
+async function spotifyApiCall<T>(
+  token: string,
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<T> {
   const res = await fetch(`https://api.spotify.com/v1/${endpoint}`, {
     method: 'GET',
     headers: {
@@ -39,8 +42,12 @@ export async function spotifyApiCall<T>(token: string, endpoint: string, options
     ...options,
   })
 
-  let method = '' 
-  if(options.method) {method = options.method} else {method = 'GET'}
+  let method = ''
+  if (options.method) {
+    method = options.method
+  } else {
+    method = 'GET'
+  }
   console.log('method: ', method)
 
   if (!res.ok) {
@@ -50,18 +57,38 @@ export async function spotifyApiCall<T>(token: string, endpoint: string, options
     )
   }
 
-  if(method == 'GET') {
-    return res.json() as Promise<T>
-  }
-  if(method == 'PUT') {
+  if (method == 'PUT') {
     return res as any
   }
-  // return res.json() as Promise<T>
+  return res.json() as Promise<T>
 }
 
-
 //** API calls
-//! error fetching '#1 tracks' playlist 
+
+// export const apiCalls = {
+
+//   fetchPlaylistItems: async (token: string, playlistID: string) => {
+//     const playlistItems = await spotifyApiCall(
+//       token,
+//       `playlists/${playlistID}/tracks?offset=0&limit=100`
+//     )
+//     const playlistTracks = simplifyPlaylistData(playlistItems)
+//     return playlistTracks
+//   },
+
+//   fetchLabelOnScroll: async (token: string, playlistID: string) => {
+//     const playlistItems = await spotifyApiCall(
+//       token,
+//       `playlists/${playlistID}/tracks?offset=0&limit=100`
+//     )
+//     const playlistTracks = simplifyPlaylistData(playlistItems)
+//     return playlistTracks
+//   },
+
+// }
+
+
+//! error fetching '#1 tracks' playlist
 export async function fetchPlaylistItems(token: string, playlistID: string) {
   const playlistItems = await spotifyApiCall(
     token,
@@ -79,7 +106,11 @@ export async function fetchLabelOnScroll(token: string, albumID: string) {
   return albumData.label
 }
 
-export async function playTrackFromPlaylist(token: string, playlistID: string, trackID: string) {
+export async function playTrackFromPlaylist(
+  token: string,
+  playlistID: string,
+  trackID: string
+) {
   const reqBody = {
     context_uri: `spotify:playlist:${playlistID}`,
     offset: { uri: `spotify:track:${trackID}` },

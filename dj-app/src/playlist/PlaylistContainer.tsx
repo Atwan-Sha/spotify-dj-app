@@ -11,7 +11,6 @@ const testPlaylistArr = [
   { id: 'xxxx', cover: placeholder, name: 'Name 2', tracks: '0', owner: 'User 2', description: 'abcdef' },
   { id: 'xxxx', cover: placeholder, name: 'Name 3', tracks: '0', owner: 'User 3', description: 'abcdef' },
 ]
-
 const testPlaylistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
 
 function simplifyPlaylistContainerData(plData: any) {
@@ -46,10 +45,9 @@ export default function PlaylistContainer({ token }: { token: string }) {
       userPlaylists = await userPlaylists.json()
       const playlistCardData = simplifyPlaylistContainerData(userPlaylists)
       setPlaylists(playlistCardData)
+      // console.log(playlistCardData)
     }
-
     fetchUserPlaylists()
-
   }, [])
 
   function selectPlaylist(playlistID: string) {

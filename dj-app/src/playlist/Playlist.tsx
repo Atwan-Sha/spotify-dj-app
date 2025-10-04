@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react'
 import '../styles/Playlist.sass'
 import placeholder from '../assets/cd-cover-placeholder.jpg'
 import Track from './Track.tsx'
+
 import { fetchPlaylistItems } from './apiCalls.ts'
+import useApiCalls from './useApiCalls.tsx'
 
 //* TEST DATA
 const testTrackArr = [
@@ -15,22 +17,46 @@ const testPlaylistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
 
 
 export default function Playlist({ token, playlistID }: { token: string, playlistID: string }) {
-  const [tracks, setTracks] = useState(largeTestTrackArr)
+  // const [tracks, setTracks] = useState(largeTestTrackArr)
+  const [data, setData] = useState(largeTestTrackArr)
   console.log('render playlist: ', playlistID)
 
   useEffect(() => {
     async function apiCall() {
-      setTracks(await fetchPlaylistItems(token, playlistID))
+      setData(await fetchPlaylistItems(token, playlistID))
     }
     apiCall()
   }, [playlistID])
 
+  // const { data, loading, error } = useApiCalls(token, fetchPlaylistItems, [playlistID])
+
+  // if (loading) {
+  //   return (
+  //     <>
+  //       <div className="playlist">
+  //         <p>Loading...</p>
+  //       </div>
+  //     </>
+  //   )
+  // }
+
+  // if (error) {
+  //   return (
+  //     <>
+  //       <div className="playlist">
+  //         <p>Error: {error.message}</p>
+  //       </div>
+  //     </>
+  //   )
+  // }
+
+  // if (!data) return null
 
   return (
     <>
       <div className="playlist">
         {/* <Track data={tracks[0]} playTrack={playTrackFromPlaylist} /> */}
-        {tracks.map((data, i) => (
+        {data.map((data: any, i: number) => (
           <Track
             token={token}
             data={data}
