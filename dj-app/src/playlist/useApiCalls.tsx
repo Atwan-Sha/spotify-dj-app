@@ -5,30 +5,33 @@ import { useState, useEffect } from 'react'
 export default function useApiCalls<T>(
   token: string,
   endpointFunc: Function,
-  params: any, 
+  params: any,
 ) {
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
+  // console.log('run custom hook')
 
   useEffect(() => {
-    let isMounted = true
+    const controller = new AbortController()
+    // console.log('run fetch')
 
     async function fetchData() {
       try {
         setLoading(true)
-        const result = await endpointFunc(token, ...params)
-        if (isMounted) setData(result)
+        const result = await endpointFunc(token, ...params, controller.signal)
+        setData(result)
       } catch (err: any) {
-        if (isMounted) setError(err)
+        // if (err.name !== 'AbortError') setError(err)
+        setError(err)
       } finally {
-        if (isMounted) setLoading(false)
+        if (!controller.signal.aborted) setLoading(false)
       }
     }
 
     fetchData()
     return () => {
-      isMounted = false
+      controller.abort()
     }
   }, [...params])
 

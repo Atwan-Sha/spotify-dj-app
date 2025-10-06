@@ -18,39 +18,40 @@ const testPlaylistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
 
 export default function Playlist({ token, playlistID }: { token: string, playlistID: string }) {
   // const [tracks, setTracks] = useState(largeTestTrackArr)
-  const [data, setData] = useState(largeTestTrackArr)
+  // const [data, setData] = useState(largeTestTrackArr)
   console.log('render playlist: ', playlistID)
 
-  useEffect(() => {
-    async function apiCall() {
-      setData(await fetchPlaylistItems(token, playlistID))
-    }
-    apiCall()
-  }, [playlistID])
+  // useEffect(() => {
+  //   async function apiCall() {
+  //     setData(await fetchPlaylistItems(token, playlistID))
+  //   }
+  //   apiCall()
+  // }, [playlistID])
 
-  // const { data, loading, error } = useApiCalls(token, fetchPlaylistItems, [playlistID])
+  const { data, loading, error } = useApiCalls(token, fetchPlaylistItems, [playlistID])
+  // console.log('fetch returns: ', data, loading, error)
 
-  // if (loading) {
-  //   return (
-  //     <>
-  //       <div className="playlist">
-  //         <p>Loading...</p>
-  //       </div>
-  //     </>
-  //   )
-  // }
+  if (loading) {
+    return (
+      <>
+        <div className="playlist">
+          <p>Loading...</p>
+        </div>
+      </>
+    )
+  }
 
-  // if (error) {
-  //   return (
-  //     <>
-  //       <div className="playlist">
-  //         <p>Error: {error.message}</p>
-  //       </div>
-  //     </>
-  //   )
-  // }
+  if (error) {
+    return (
+      <>
+        <div className="playlist">
+          <p>Error: {error.message}</p>
+        </div>
+      </>
+    )
+  }
 
-  // if (!data) return null
+  if (!data) return null
 
   return (
     <>
@@ -59,7 +60,7 @@ export default function Playlist({ token, playlistID }: { token: string, playlis
         {data.map((data: any, i: number) => (
           <Track
             token={token}
-            data={data}
+            trackData={data}
             playlistID={playlistID}
             key={i}
             id={i}

@@ -28,9 +28,10 @@ function simplifyPlaylistData(plData: any) {
   return trackArr
 }
 
-//* generic API call function
-async function spotifyApiCall<T>(
+//* generic API call functions
+async function spotifyApiCallGet<T>(
   token: string,
+  signal: AbortSignal,
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
@@ -39,16 +40,17 @@ async function spotifyApiCall<T>(
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    ...options,
+    signal,
+    ...options
   })
 
-  let method = ''
-  if (options.method) {
-    method = options.method
-  } else {
-    method = 'GET'
-  }
-  console.log('method: ', method)
+  // let method = ''
+  // if (options.method) {
+  //   method = options.method
+  // } else {
+  //   method = 'GET'
+  // }
+  // console.log('method: ', method)
 
   if (!res.ok) {
     const errorBody = await res.text()
@@ -57,66 +59,18 @@ async function spotifyApiCall<T>(
     )
   }
 
-  if (method == 'PUT') {
-    return res as any
-  }
+  // if (method == 'PUT') {
+  //   return res as any
+  // }
   return res.json() as Promise<T>
 }
 
-//** API calls
-
-// export const apiCalls = {
-
-//   fetchPlaylistItems: async (token: string, playlistID: string) => {
-//     const playlistItems = await spotifyApiCall(
-//       token,
-//       `playlists/${playlistID}/tracks?offset=0&limit=100`
-//     )
-//     const playlistTracks = simplifyPlaylistData(playlistItems)
-//     return playlistTracks
-//   },
-
-//   fetchLabelOnScroll: async (token: string, playlistID: string) => {
-//     const playlistItems = await spotifyApiCall(
-//       token,
-//       `playlists/${playlistID}/tracks?offset=0&limit=100`
-//     )
-//     const playlistTracks = simplifyPlaylistData(playlistItems)
-//     return playlistTracks
-//   },
-
-// }
-
-
-//! error fetching '#1 tracks' playlist
-export async function fetchPlaylistItems(token: string, playlistID: string) {
-  const playlistItems = await spotifyApiCall(
-    token,
-    `playlists/${playlistID}/tracks?offset=0&limit=100`
-  )
-  const playlistTracks = simplifyPlaylistData(playlistItems)
-  return playlistTracks
-}
-
-export async function fetchLabelOnScroll(token: string, albumID: string) {
-  const albumData = await spotifyApiCall<{ label: string }>(
-    token,
-    `albums/${albumID}`
-  )
-  return albumData.label
-}
-
-export async function playTrackFromPlaylist(
+async function spotifyApiCallPut<T>(
   token: string,
-  playlistID: string,
-  trackID: string
-) {
-  const reqBody = {
-    context_uri: `spotify:playlist:${playlistID}`,
-    offset: { uri: `spotify:track:${trackID}` },
-    position_ms: 0,
-  }
-  const statusRes = await spotifyApiCall(token, 'me/player/play', {
+  endpoint: string,
+  reqBody: Object
+): Promise<T> {
+  const res = await fetch(`https://api.spotify.com/v1/${endpoint}`, {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -124,5 +78,46 @@ export async function playTrackFromPlaylist(
     },
     body: JSON.stringify(reqBody),
   })
+
+  if (!res.ok) {
+    const errorBody = await res.text()
+    throw new Error(
+      `Spotify API error: ${res.status} ${res.statusText} - ${errorBody}`
+    )
+  }
+
+  return res as any
+}
+
+
+
+//** API calls
+//! error fetching '#1 tracks' playlist
+export async function fetchPlaylistItems(token: string, playlistID: string, signal: AbortSignal) {
+  const playlistItems = await spotifyApiCallGet(
+    token,
+    signal,
+    `playlists/${playlistID}/tracks?offset=0&limit=100`
+  )
+  const playlistTracks = simplifyPlaylistData(playlistItems)
+  return playlistTracks
+}
+
+export async function fetchLabelOnScroll(token: string, albumID: string, signal: AbortSignal) {
+  const albumData = await spotifyApiCallGet<{ label: string }>(
+    token,
+    signal,
+    `albums/${albumID}`
+  )
+  return albumData.label
+}
+
+export async function playTrackFromPlaylist(token: string, playlistID: string, trackID: string) {
+  const reqBody = {
+    context_uri: `spotify:playlist:${playlistID}`,
+    offset: { uri: `spotify:track:${trackID}` },
+    position_ms: 0,
+  }
+  const statusRes = await spotifyApiCallPut(token, 'me/player/play', reqBody)
   console.log(statusRes)
 }

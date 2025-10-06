@@ -3,23 +3,25 @@ import { playTrackFromPlaylist, fetchLabelOnScroll } from './apiCalls'
 
 export default function Track({
   token,
-  data,
+  trackData,
   playlistID
 }: {
   token: string,
-  data: any,
+  trackData: any,
   playlistID: string,
   id: number
 }) {
-  const [label, setLabel] = useState(data.label)
+  // const [label, setLabel] = useState(trackData.label)
+  const [label, setLabel] = useState('Loading...')
   const elementRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!data.albumID) return
+    if (!trackData.albumID) return
+    const controller = new AbortController()
 
     const observer = new IntersectionObserver(async ([entry]) => {
       if (entry.isIntersecting) {
-        setLabel(await fetchLabelOnScroll(token, data.albumID))
+        setLabel(await fetchLabelOnScroll(token, trackData.albumID, controller.signal))
         if (elementRef.current) observer.unobserve(elementRef.current)
       }
     }, { threshold: 1 })
@@ -29,7 +31,7 @@ export default function Track({
     return () => {
       observer.disconnect()
     }
-  }, [data.albumID])
+  }, [trackData.albumID])
 
 
   return (
@@ -37,27 +39,27 @@ export default function Track({
       <div className="track" ref={elementRef}>
         <img
           className="cover-art"
-          src={data.cover}
+          src={trackData.cover}
           alt=""
         />
         <button
           type="button"
           className="btn play"
           onClick={() => {
-            console.log('play track id:', data.id)
-            playTrackFromPlaylist(token, playlistID, data.id)
+            console.log('play track id:', trackData.id)
+            playTrackFromPlaylist(token, playlistID, trackData.id)
           }}
         >
           &#9654;
         </button>
         <div className="track-info">
-          <span>{data.name}</span>
-          <span>{data.album}</span>
-          <span>{data.artists}</span>
+          <span>{trackData.name}</span>
+          <span>{trackData.album}</span>
+          <span>{trackData.artists}</span>
           <span>{label}</span>
         </div>
         <span className="duration">
-          {data.duration}
+          {trackData.duration}
         </span>
       </div>
     </>
