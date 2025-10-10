@@ -1,21 +1,28 @@
 import { useState } from 'react'
+import { createContext, useContext } from 'react';
 import './styles/App.css'
 // import TestComp from './testing/TestComp.tsx'
 // import PlaybackTest from './testing/PlaybackTest.tsx'
-import Playlist from './playlist/Playlist.tsx'
+// import Playlist from './playlist/Playlist.tsx'
 import PlaylistContainer from './playlist/PlaylistContainer.tsx'
 import Player from './player/Player.tsx'
 
+export const UserContext = createContext('')
+
 export default function App() {
 
+  // const UserContext = createContext('')
+  
   const [token, setToken] = useState(
-    'BQAAS3OftGYvJGBfTYU0-dXKEOmbyMTSlZ3REnk1hIc_dYkkGsY5e8-nYXmnFLw_mNZZlOLAA4zYC3eSkBnwHMYRkFAawlxT8sfZK9g2igRBPDswPxv_HZ9Bbfh4BlAqIYfbkhKzS8iYCfLvsbPbxNouBlvb1G9BAFozccEyTz695skH9od4U-va9p9QHE_Rsg2F05MxA7k-SXGVg-fxH6insGYzDMZZYugemte-1vY1oxmw'
+    'BQAljJJD7hyo4dbB7iu7Vb3F0siWupZTW84LDzr6AluzNR-0m7m1Ne0QgjC9VZf01FJnxubw5xfmJcSHvR5Cp9V6XH-njsqMHEOAJsnObInZtQpdLv59piZYaoNL0b_sWDdj5uLgFxsO3d82WpbKHItEs2FUtV3pShaTW1XX0zeqXPu-4l-Rt_PhFUqlhKcIsKY5_7SY4oygz76nlNRK14vjZTpoawWsrpstXASRreJgTd-waFLWhA'
   )
 
   return (
     <>
-      <PlaylistContainer token={token} />
-      <Player token={token} />
+      <UserContext.Provider value={token}>
+        <PlaylistContainer token={token} />
+        <Player token={token} />
+      </UserContext.Provider>
     </>
   )
 }

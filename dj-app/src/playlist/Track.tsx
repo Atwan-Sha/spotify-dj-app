@@ -29,6 +29,7 @@ export default function Track({
     if (elementRef.current) observer.observe(elementRef.current)
 
     return () => {
+      controller.abort()
       observer.disconnect()
     }
   }, [trackData.albumID])

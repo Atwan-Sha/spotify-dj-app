@@ -29,28 +29,14 @@ function simplifyPlaylistData(plData: any) {
 }
 
 //* generic API call functions
-async function spotifyApiCallGet<T>(
-  token: string,
-  signal: AbortSignal,
-  endpoint: string,
-  options: RequestInit = {}
-): Promise<T> {
+async function spotifyApiCallGet<T>(token: string, signal: AbortSignal, endpoint: string,): Promise<T> {
   const res = await fetch(`https://api.spotify.com/v1/${endpoint}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
     },
     signal,
-    ...options
   })
-
-  // let method = ''
-  // if (options.method) {
-  //   method = options.method
-  // } else {
-  //   method = 'GET'
-  // }
-  // console.log('method: ', method)
 
   if (!res.ok) {
     const errorBody = await res.text()
@@ -59,17 +45,10 @@ async function spotifyApiCallGet<T>(
     )
   }
 
-  // if (method == 'PUT') {
-  //   return res as any
-  // }
   return res.json() as Promise<T>
 }
 
-async function spotifyApiCallPut<T>(
-  token: string,
-  endpoint: string,
-  reqBody: Object
-): Promise<T> {
+async function spotifyApiCallPut<T>(token: string, endpoint: string, reqBody: Object): Promise<T> {
   const res = await fetch(`https://api.spotify.com/v1/${endpoint}`, {
     method: 'PUT',
     headers: {
