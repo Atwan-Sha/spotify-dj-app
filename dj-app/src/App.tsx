@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 import './styles/App.css'
 // import TestComp from './testing/TestComp.tsx'
 // import PlaybackTest from './testing/PlaybackTest.tsx'
@@ -12,13 +12,13 @@ export const UserContext = createContext('')
 export default function App() {
 
   const [token, setToken] = useState(
-    'BQAsmonDy1qsrd9-mQKCDZQLNpa5xllZ2fjo0IQn6SEtlx0ION7LhtSLuZSlv2YF9yB1wjLuxG1WbyhuycyFxYN9ygwQJWLiaie0NSRnIoorSs8Txfr0t6EMmaGtvGKOjrfgmL9qjI4q1GNdRUn7f7iJ1ErdKXEG28tLPdKaFfV5wQzvZxHwC9KjVCMxCrbOS6SPukDAv0SQCB5x-NNBy6IGv34dXvjzAiy1IrBnL_L21O57zDPm'
+    'BQCKf9cvTql9bVvmJRKPIi9fxBfLC1eHh7k_v8q-dmw0A0SuWIA7Juw4W5VJ-CkgxAoZDixI4rOu5DiZWWceYScbiGL5-uGMXACzCYUWNbVTAuYGLafPQfJZ_5c_cdlk75JnqPG9ZJsISbKjV7F-eTItm9086dynnMrgNoG7EHCAPxOcZcF40--H9rHbCMwmrrh4R9qaLC-5urh1wh2Y7xaa5QeyP4z3EMLOedkTJKuSTW5j1V8B'
   )
 
   return (
     <>
       <UserContext.Provider value={token}>
-        <PlaylistContainer token={token} />
+        <PlaylistContainer />
         <Player token={token} />
       </UserContext.Provider>
     </>
