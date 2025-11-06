@@ -1,25 +1,23 @@
-// useSpotifyApi.ts
 import { useState, useEffect } from 'react'
-// import { fetchPlaylistItems } from './apiCalls.ts'
+import { useContext } from 'react'
+import { UserContext } from '../App.tsx'
 
-export default function useApiCalls<T>(
-  token: string,
+export default function useApiCalls(
   endpointFunc: Function,
   params: any,
 ) {
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
-  // console.log('run custom hook')
+  const token = useContext(UserContext)
 
   useEffect(() => {
     const controller = new AbortController()
-    // console.log('run fetch')
 
     async function fetchData() {
       try {
         setLoading(true)
-        const result = await endpointFunc(token, ...params, controller.signal)
+        const result = await endpointFunc(token, controller.signal, ...params)
         setData(result)
       } catch (err: any) {
         // if (err.name !== 'AbortError') setError(err)

@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react'
-import { useContext } from 'react'
-import { UserContext } from '../App.tsx'
+// import { useState, useEffect } from 'react'
 
 import '../styles/Playlist.sass'
 import placeholder from '../assets/cd-cover-placeholder.jpg'
@@ -18,22 +16,8 @@ const testTrackArr = [
 const largeTestTrackArr = Array(50).fill(testTrackArr[0])
 const testPlaylistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
 
-
-export default function Playlist({ playlistID }: { token: string, playlistID: string }) {
-
-  const token = useContext(UserContext)
-  // const [tracks, setTracks] = useState(largeTestTrackArr)
-  // const [data, setData] = useState(largeTestTrackArr)
-  console.log('render playlist: ', playlistID)
-
-  // useEffect(() => {
-  //   async function apiCall() {
-  //     setData(await fetchPlaylistItems(token, playlistID))
-  //   }
-  //   apiCall()
-  // }, [playlistID])
-
-  const { data, loading, error } = useApiCalls(token, fetchPlaylistItems, [playlistID])
+export default function Playlist({ playlistID }: { playlistID: string }) {
+  const { data, loading, error } = useApiCalls(fetchPlaylistItems, [playlistID])
   // console.log('fetch returns: ', data, loading, error)
 
   if (loading) {
@@ -61,10 +45,8 @@ export default function Playlist({ playlistID }: { token: string, playlistID: st
   return (
     <>
       <div className="playlist">
-        {/* <Track data={tracks[0]} playTrack={playTrackFromPlaylist} /> */}
         {data.map((data: any, i: number) => (
           <Track
-            token={token}
             trackData={data}
             playlistID={playlistID}
             key={i}

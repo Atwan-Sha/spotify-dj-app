@@ -69,7 +69,7 @@ export default function PlaylistContainer({ token }: { token: string }) {
       </button>
 
       <div style={{ display: view == 'PLAYLIST' ? 'block' : 'none' }}>
-        <Playlist token={token} playlistID={selected} />
+        <Playlist playlistID={selected} />
       </div>
 
       <div style={{ display: view == 'SELECT' ? 'block' : 'none' }}>

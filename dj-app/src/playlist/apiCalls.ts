@@ -29,7 +29,8 @@ function simplifyPlaylistData(plData: any) {
 }
 
 //* generic API call functions
-async function spotifyApiCallGet<T>(token: string, signal: AbortSignal, endpoint: string,): Promise<T> {
+//* GET
+async function spotifyApiCallGet(token: string, signal: AbortSignal, endpoint: string,) {
   const res = await fetch(`https://api.spotify.com/v1/${endpoint}`, {
     method: 'GET',
     headers: {
@@ -45,10 +46,10 @@ async function spotifyApiCallGet<T>(token: string, signal: AbortSignal, endpoint
     )
   }
 
-  return res.json() as Promise<T>
+  return res.json()
 }
-
-async function spotifyApiCallPut<T>(token: string, endpoint: string, reqBody: Object): Promise<T> {
+//* PUT
+async function spotifyApiCallPut(token: string, endpoint: string, reqBody: Object) {
   const res = await fetch(`https://api.spotify.com/v1/${endpoint}`, {
     method: 'PUT',
     headers: {
@@ -65,14 +66,13 @@ async function spotifyApiCallPut<T>(token: string, endpoint: string, reqBody: Ob
     )
   }
 
-  return res as any
+  return res
 }
-
 
 
 //** API calls
 //! error fetching '#1 tracks' playlist
-export async function fetchPlaylistItems(token: string, playlistID: string, signal: AbortSignal) {
+export async function fetchPlaylistItems(token: string, signal: AbortSignal, playlistID: string) {
   const playlistItems = await spotifyApiCallGet(
     token,
     signal,
@@ -82,8 +82,8 @@ export async function fetchPlaylistItems(token: string, playlistID: string, sign
   return playlistTracks
 }
 
-export async function fetchLabelOnScroll(token: string, albumID: string, signal: AbortSignal) {
-  const albumData = await spotifyApiCallGet<{ label: string }>(
+export async function fetchLabelOnScroll(token: string, signal: AbortSignal, albumID: string, ) {
+  const albumData = await spotifyApiCallGet(
     token,
     signal,
     `albums/${albumID}`

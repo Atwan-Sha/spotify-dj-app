@@ -1,19 +1,11 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
+import { UserContext } from '../App.tsx'
 import { playTrackFromPlaylist, fetchLabelOnScroll } from './apiCalls'
 
-export default function Track({
-  token,
-  trackData,
-  playlistID
-}: {
-  token: string,
-  trackData: any,
-  playlistID: string,
-  id: number
-}) {
-  // const [label, setLabel] = useState(trackData.label)
+export default function Track({ trackData, playlistID }: { trackData: any, playlistID: string, id: number }) {
   const [label, setLabel] = useState('Loading...')
   const elementRef = useRef<HTMLDivElement>(null)
+  const token = useContext(UserContext)
 
   useEffect(() => {
     if (!trackData.albumID) return
@@ -21,7 +13,7 @@ export default function Track({
 
     const observer = new IntersectionObserver(async ([entry]) => {
       if (entry.isIntersecting) {
-        setLabel(await fetchLabelOnScroll(token, trackData.albumID, controller.signal))
+        setLabel(await fetchLabelOnScroll(token, controller.signal, trackData.albumID))
         if (elementRef.current) observer.unobserve(elementRef.current)
       }
     }, { threshold: 1 })
@@ -33,7 +25,6 @@ export default function Track({
       observer.disconnect()
     }
   }, [trackData.albumID])
-
 
   return (
     <>
@@ -47,7 +38,7 @@ export default function Track({
           type="button"
           className="btn play"
           onClick={() => {
-            console.log('play track id:', trackData.id)
+            // console.log('play track id:', trackData.id)
             playTrackFromPlaylist(token, playlistID, trackData.id)
           }}
         >
