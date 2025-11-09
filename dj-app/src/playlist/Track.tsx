@@ -3,7 +3,7 @@ import { UserContext } from '../App.tsx'
 import { playTrackFromPlaylist, fetchLabelOnScroll } from './apiCalls'
 
 export default function Track({ trackData, playlistID }: { trackData: any, playlistID: string, id: number }) {
-  const [label, setLabel] = useState('Loading...')
+  const [label, setLabel] = useState('Label')
   const elementRef = useRef<HTMLDivElement>(null)
   const token = useContext(UserContext)
 
