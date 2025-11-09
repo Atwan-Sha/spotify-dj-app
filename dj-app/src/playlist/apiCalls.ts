@@ -1,4 +1,6 @@
 //* utils
+import placeholder from '../assets/cd-cover-placeholder.jpg'
+
 function convertDuration(t: number): string {
   //* millis to min:sec
   t /= 1000
@@ -20,29 +22,49 @@ function simplifyPlaylistContainerData(plData: any) {
   return playlistArr
 }
 function simplifyPlaylistData(plData: any) {
+  //! error undefined img url at #1 tracks playlist track 73
   let trackArr = plData.items.map((item: any) => {
-    return {
-      id: item.track.id,
-      cover: item.track.album.images[0].url,
-      name: item.track.name,
-      artists: item.track.artists
-        .reduce(
-          (artists: string, artist: any) => artists + `${artist.name}, `,
-          ''
-        )
-        .slice(0, -2),
-      album: item.track.album.name,
-      albumID: item.track.album.id,
-      label: '----',
-      duration: convertDuration(item.track.duration_ms),
+    try {
+      return {
+        id: item.track.id,
+        cover: item.track.album.images[0].url,
+        name: item.track.name,
+        artists: item.track.artists
+          .reduce(
+            (artists: string, artist: any) => artists + `${artist.name}, `,
+            ''
+          )
+          .slice(0, -2),
+        album: item.track.album.name,
+        albumID: item.track.album.id,
+        label: '----',
+        duration: convertDuration(item.track.duration_ms),
+      }
+    } catch (err: any) {
+      console.log(err)
+      return {
+        id: 'xxxx', 
+        cover: placeholder, 
+        name: 'Track', 
+        artists: 'Artist', 
+        album: 'Album', 
+        albumID: null, 
+        label: null, 
+        duration: '4:20',
+      }
     }
   })
+
   return trackArr
 }
 
 //* generic API call functions
 //* GET
-async function spotifyApiCallGet(token: string, signal: AbortSignal, endpoint: string,) {
+async function spotifyApiCallGet(
+  token: string,
+  signal: AbortSignal,
+  endpoint: string
+) {
   const res = await fetch(`https://api.spotify.com/v1/${endpoint}`, {
     method: 'GET',
     headers: {
@@ -59,7 +81,11 @@ async function spotifyApiCallGet(token: string, signal: AbortSignal, endpoint: s
   return res.json()
 }
 //* PUT
-async function spotifyApiCallPut(token: string, endpoint: string, reqBody: Object) {
+async function spotifyApiCallPut(
+  token: string,
+  endpoint: string,
+  reqBody: Object
+) {
   const res = await fetch(`https://api.spotify.com/v1/${endpoint}`, {
     method: 'PUT',
     headers: {
@@ -77,27 +103,46 @@ async function spotifyApiCallPut(token: string, endpoint: string, reqBody: Objec
   return res
 }
 
-
 //** API calls
 export async function fetchUserPlaylists(token: string, signal: AbortSignal) {
-  const userPlaylists = await spotifyApiCallGet(token, signal, `me/playlists?limit=10&offset=0`)
+  const userPlaylists = await spotifyApiCallGet(
+    token,
+    signal,
+    `me/playlists?limit=10&offset=0`
+  )
   const playlistCardData = simplifyPlaylistContainerData(userPlaylists)
   return playlistCardData
 }
 
-export async function fetchPlaylistItems(token: string, signal: AbortSignal, playlistID: string) {
-  //! error fetching '#1 tracks' playlist
-  const playlistItems = await spotifyApiCallGet(token, signal, `playlists/${playlistID}/tracks?offset=0&limit=100`)
+export async function fetchPlaylistItems(
+  token: string,
+  signal: AbortSignal,
+  playlistID: string
+) {
+  const playlistItems = await spotifyApiCallGet(
+    token,
+    signal,
+    `playlists/${playlistID}/tracks?offset=0&limit=100`
+  )
+  // console.log(playlistItems)
   const playlistTracks = simplifyPlaylistData(playlistItems)
   return playlistTracks
 }
 
-export async function fetchLabelOnScroll(token: string, signal: AbortSignal, albumID: string, ) {
+export async function fetchLabelOnScroll(
+  token: string,
+  signal: AbortSignal,
+  albumID: string
+) {
   const albumData = await spotifyApiCallGet(token, signal, `albums/${albumID}`)
   return albumData.label
 }
 
-export async function playTrackFromPlaylist(token: string, playlistID: string, trackID: string) {
+export async function playTrackFromPlaylist(
+  token: string,
+  playlistID: string,
+  trackID: string
+) {
   const reqBody = {
     context_uri: `spotify:playlist:${playlistID}`,
     offset: { uri: `spotify:track:${trackID}` },

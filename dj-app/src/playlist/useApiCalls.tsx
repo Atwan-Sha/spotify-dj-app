@@ -18,9 +18,11 @@ export default function useApiCalls(
       try {
         setLoading(true)
         const result = await endpointFunc(token, controller.signal, ...params)
+        // console.log(result)
         setData(result)
       } catch (err: any) {
         // if (err.name !== 'AbortError') setError(err)
+        // console.log(err)
         setError(err)
       } finally {
         if (!controller.signal.aborted) setLoading(false)
