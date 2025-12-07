@@ -20,7 +20,7 @@ export default function PlaylistCard({ plData, select }: any) {
       <div className="playlist-info">
         <span>{plData.name}</span>
         <span>{plData.tracks}</span>
-        <span>{plData.description}</span>
+        <span className="bio">{plData.description}</span>
       </div>
     </div>
   )

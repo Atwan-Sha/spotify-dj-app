@@ -15,6 +15,8 @@ const testPlaylistArr = [
 ]
 const testPlaylistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
 
+
+
 export default function PlaylistContainer() {
   const [view, setView] = useState('SELECT')
   const [selected, setSelected] = useState(testPlaylistID)
@@ -30,41 +32,37 @@ export default function PlaylistContainer() {
 
   if (loading) {
     return (
-      <>
-        <div id="playlist-container">
-          <p>Loading...</p>
-        </div>
-      </>
+      <div id="playlist-container">
+        <p>Loading...</p>
+      </div>
     )
   }
 
   if (error) {
     console.log('Error: ', error.message)
     return (
-      <>
-        <div id="playlist-container">
-          {/* <p>Error: {error.message}</p> */}
-          <button
-            type="button"
-            className="btn view"
-            onClick={() => {
-              setView(view == 'PLAYLIST' ? 'SELECT' : 'PLAYLIST')
-            }}
-          >
-            {view}
-          </button>
+      <div id="playlist-container">
+        {/* <p>Error: {error.message}</p> */}
+        <button
+          type="button"
+          className="btn view"
+          onClick={() => {
+            setView(view == 'PLAYLIST' ? 'SELECT' : 'PLAYLIST')
+          }}
+        >
+          {view}
+        </button>
 
-          <div style={{ display: view == 'PLAYLIST' ? 'block' : 'none' }}>
-            <Playlist playlistID={selected} />
-          </div>
-
-          <div style={{ display: view == 'SELECT' ? 'block' : 'none' }}>
-            {testPlaylistArr.map((data: any, i: number) => (
-              <PlaylistCard plData={data} select={selectPlaylist} key={i} />
-            ))}
-          </div>
+        <div style={{ display: view == 'PLAYLIST' ? 'block' : 'none' }}>
+          <Playlist playlistID={selected} />
         </div>
-      </>
+
+        <div style={{ display: view == 'SELECT' ? 'block' : 'none' }}>
+          {testPlaylistArr.map((data: any, i: number) => (
+            <PlaylistCard plData={data} select={selectPlaylist} key={i} />
+          ))}
+        </div>
+      </div>
     )
   }
 

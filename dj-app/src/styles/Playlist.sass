@@ -7,9 +7,9 @@
     display: flex
     flex-direction: column
     align-items: center
-    width: 600px
+    width: 30%
     height: 90vh
-    margin-right: 20px
+    margin: 10px
     border: 3px solid grey
     border-radius: 8px
     background-color: #353535
@@ -20,12 +20,12 @@
     .playlist-card
         display: flex
         justify-content: space-between
-        width: 80%
+        width: 90%
         height: 60px
-        margin: 5px
+        margin: 5px auto
         border: 1px solid white
         border-radius: 8px
-        font-size: 0.8m
+        font-size: 1em
             // inline-size: 300px
             // text-wrap: nowrap
             // overflow: hidden
@@ -47,7 +47,7 @@
             left: -66px
             border: none
             border-radius: 8px
-            font-size: 1.5em
+            font-size: 1em
                 // top: 50%
                 // left: 50%
                 // transform: translate(-50%, -50%)
@@ -58,20 +58,25 @@
                 opacity: 0.9
 
         .playlist-info
-            width: 90%
+            // width: 250px
             // max-width: 290px
-            inline-size: 300px
-                // height: 2em
+            inline-size: 260px
             display: flex
-            justify-content: space-evenly
+            justify-content: flex-start
             flex-wrap: wrap
             text-align: left
             position: relative
             left: -55px
             span
-                // width: 120px
+                // width: 100px
                 text-wrap: nowrap
                 overflow: hidden
+                margin-right: 10px
+            .bio
+                font-size: 0.8em
+                min-width: 200px
+
+
 
     .playlist
         display: flex
@@ -141,7 +146,7 @@
 
             .track-info
                 width: 70%
-                max-width: 290px
+                max-width: 200px
                 inline-size: 300px
                 // height: 2em
                 display: flex
@@ -151,7 +156,7 @@
                 position: relative
                 left: -55px
                 span
-                    width: 100px
+                    width: 70px
                     text-wrap: nowrap
                     overflow: hidden
 
