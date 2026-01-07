@@ -3,10 +3,12 @@ import { UserContext } from '../App.tsx'
 import { playTrackFromPlaylist, fetchLabelOnScroll } from './apiCalls'
 
 export default function Track({ trackData, playlistID }: { trackData: any, playlistID: string, id: number }) {
+  const [linkTest, setLinkTest] = useState<null | string>(null)
   const [label, setLabel] = useState('Label')
   const elementRef = useRef<HTMLDivElement>(null)
   const token = useContext(UserContext)
 
+  //* IntersectionObserver to lazy load label
   useEffect(() => {
     if (!trackData.albumID) return
     const controller = new AbortController()
@@ -25,6 +27,10 @@ export default function Track({ trackData, playlistID }: { trackData: any, playl
       observer.disconnect()
     }
   }, [trackData.albumID])
+
+  const goToMetadataItem = () => {
+    linkTest === null ? setLinkTest('link test') : setLinkTest(null)
+  }
 
   return (
     <>
@@ -48,6 +54,7 @@ export default function Track({ trackData, playlistID }: { trackData: any, playl
           <span>{trackData.name}</span>
           <span>{trackData.album}</span>
           <span>{trackData.artists}</span>
+          {/* <span onClick={goToMetadataItem}>{linkTest === null ? trackData.artists : linkTest}</span> */}
           <span>{label}</span>
         </div>
         <span className="duration">
