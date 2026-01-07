@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import '../styles/Playlist.sass'
+
+import '../styles/PlaylistContainer.sass'
+
 import placeholder from '../assets/cd-cover-placeholder.jpg'
 import PlaylistCard from './PlaylistCard.tsx'
 import Playlist from './Playlist.tsx'
@@ -20,10 +22,12 @@ const testPlaylistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
 export default function PlaylistContainer() {
   const [view, setView] = useState('SELECT')
   const [selected, setSelected] = useState(testPlaylistID)
+  const [nrOfTracks, setNrOfTracks] = useState(0)
 
-  const selectPlaylist = (playlistID: string) => {
+  const selectPlaylist = (playlistID: string, nrOfTracks: number) => {
     console.log('select playlist:', playlistID)
     setSelected(playlistID)
+    setNrOfTracks(nrOfTracks)
     setView('PLAYLIST')
   }
 
@@ -39,29 +43,10 @@ export default function PlaylistContainer() {
   }
 
   if (error) {
-    console.log('Error: ', error.message)
+    // console.log('Error: ', error.message)
     return (
       <div id="playlist-container">
-        {/* <p>Error: {error.message}</p> */}
-        <button
-          type="button"
-          className="btn view"
-          onClick={() => {
-            setView(view == 'PLAYLIST' ? 'SELECT' : 'PLAYLIST')
-          }}
-        >
-          {view}
-        </button>
-
-        <div style={{ display: view == 'PLAYLIST' ? 'block' : 'none' }}>
-          <Playlist playlistID={selected} />
-        </div>
-
-        <div style={{ display: view == 'SELECT' ? 'block' : 'none' }}>
-          {testPlaylistArr.map((data: any, i: number) => (
-            <PlaylistCard plData={data} select={selectPlaylist} key={i} />
-          ))}
-        </div>
+        <p>Error: {error.message}</p>
       </div>
     )
   }
@@ -81,7 +66,7 @@ export default function PlaylistContainer() {
       </button>
 
       <div style={{ display: view == 'PLAYLIST' ? 'block' : 'none' }}>
-        <Playlist playlistID={selected} />
+        <Playlist playlistID={selected} nrOfTracks={nrOfTracks} />
       </div>
 
       <div style={{ display: view == 'SELECT' ? 'block' : 'none' }}>

@@ -1,4 +1,6 @@
+
 import '../styles/Playlist.sass'
+
 import placeholder from '../assets/cd-cover-placeholder.jpg'
 import Track from './Track.tsx'
 
@@ -11,12 +13,12 @@ const testTrackArr = [
   { id: 'xxxx', cover: placeholder, name: 'Track 2', artists: 'Artist 2', album: 'Album 2', albumID: '----', label: 'Label 2', duration: '4:22' },
   { id: 'xxxx', cover: placeholder, name: 'Track 3', artists: 'Artist 3', album: 'Album 3', albumID: '----', label: 'Label 3', duration: '4:23' },
 ]
-const largeTestTrackArr = Array(15).fill(testTrackArr[0])
+const largeTestTrackArr = Array(100).fill(testTrackArr[0])
 // const testPlaylistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
 
 
 
-export default function Playlist({ playlistID }: { playlistID: string }) {
+export default function Playlist({ playlistID, nrOfTracks }: { playlistID: string, nrOfTracks: number }) {
   const { data, loading, error } = useApiCalls(fetchPlaylistItems, [playlistID])
   // console.log('fetch returns: ', data, loading, error)
 
@@ -31,18 +33,11 @@ export default function Playlist({ playlistID }: { playlistID: string }) {
   }
 
   if (error) {
-    console.log('Error: ', error.message)
+    // console.log('Error: ', error.message)
     return (
       <>
         <div className="playlist">
-          {/* <p>Error: {error.message}</p> */}
-          {largeTestTrackArr.map((data: any, i: number) => (
-            <Track
-              trackData={data}
-              playlistID={playlistID}
-              key={i}
-              id={i}
-            />))}
+          <p>Error: {error.message}</p>
         </div>
       </>
     )
@@ -63,4 +58,22 @@ export default function Playlist({ playlistID }: { playlistID: string }) {
       </div>
     </>
   )
+
+  //*LAZY LOAD TEST
+  // return (
+  //   <>
+  //     <div className="playlist">
+  //       {largeTestTrackArr.map((data: any, i: number) => (
+  //         <Track
+  //           trackData={data}
+  //           playlistID={playlistID}
+  //           key={i}
+  //           id={i}
+  //         />))}
+  //     </div>
+  //   </>
+  // )
+
+
+
 }

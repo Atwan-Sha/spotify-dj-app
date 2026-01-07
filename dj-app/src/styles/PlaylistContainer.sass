@@ -3,43 +3,31 @@
   padding: 0
   margin: 0
 
-  .playlist
-    // background-color: #343434
-    display: flex
-    flex-direction: column
+  #playlist-container
+    // display: flex
+    // flex-direction: column
+    background-color: #353535
     align-items: center
-    // width: 90%
-    height: 80vh
-    margin: 0 auto
+    width: 30%
+    // width: 500px
+    height: 90vh
+    margin: 10px
     // border: 3px solid grey
     border-radius: 8px
 
-    overflow-y: auto
-    // gap: 1rem
+    button
+      margin: 10px
 
-    // scrollbar-width: thin
-    scrollbar-color: #555 #111
-
-    &::-webkit-scrollbar
-      width: 8px
-
-    &::-webkit-scrollbar-thumb
-      background-color: #555
-      border-radius: 4px
-
-    &::-webkit-scrollbar-track
-      background-color: #111
-
-    .track
-      background-color: #101010
+    .playlist-card
+      background-color: #222222
       display: flex
       justify-content: space-between
       width: 95%
       height: 60px
-      margin: 5px
+      margin: 10px auto
       // border: 1px solid white
       border-radius: 8px
-      font-size: 0.7em
+      font-size: 1em
       // inline-size: 300px
       // text-wrap: nowrap
       // overflow: hidden
@@ -61,7 +49,7 @@
         left: -66px
         border: none
         border-radius: 8px
-        font-size: 1.5em
+        font-size: 1em
         // top: 50%
         // left: 50%
         // transform: translate(-50%, -50%)
@@ -71,23 +59,23 @@
         &:hover
           opacity: 0.9
 
-      .track-info
-        width: 70%
-        max-width: 200px
-        inline-size: 300px
-        // height: 2em
+      .playlist-info
+        // width: 250px
+        // max-width: 290px
+        // width: 70%
+        // max-width: 200px
+        inline-size: 260px
         display: flex
-        justify-content: space-evenly
+        justify-content: flex-start
         flex-wrap: wrap
         text-align: left
         position: relative
         left: -55px
         span
-          width: 70px
+          // width: 100px
           text-wrap: nowrap
           overflow: hidden
-
-      .duration
-        height: 100%
-        width: 50px
-        line-height: 55px
+          margin-right: 10px
+          .bio
+            font-size: 0.8em
+            min-width: 200px
