@@ -19,8 +19,8 @@ export default function App() {
     <>
       <UserContext.Provider value={token}>
         <PlaylistContainer />
-        <Player token={token} />
-        <PlaylistContainer />
+        {/* <Player token={token} /> */}
+        {/* <PlaylistContainer /> */}
       </UserContext.Provider>
     </>
   )

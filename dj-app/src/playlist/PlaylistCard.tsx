@@ -1,5 +1,5 @@
 
-export default function PlaylistCard({ plData, select }: any) {
+export default function PlaylistCard({ plData, selectThisPlaylist }: any) {
   // console.log('render card')
   return (
     <div className="playlist-card">
@@ -12,7 +12,7 @@ export default function PlaylistCard({ plData, select }: any) {
         type="button"
         className="btn play"
         onClick={() => {
-          select(plData.id)
+          selectThisPlaylist(plData.id, plData.tracks)
         }}
       >
         &#9654;
