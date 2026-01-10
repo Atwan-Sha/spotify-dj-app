@@ -28,9 +28,9 @@ export default function Track({ trackData, playlistID }: { trackData: any, playl
     }
   }, [trackData.albumID])
 
-  const goToMetadataItem = () => {
-    linkTest === null ? setLinkTest('link test') : setLinkTest(null)
-  }
+  // const goToMetadataItem = () => {
+  //   linkTest === null ? setLinkTest('link test') : setLinkTest(null)
+  // }
 
   return (
     <>
