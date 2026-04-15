@@ -17,8 +17,6 @@ const TEST_PLAYLIST_CARDS = [
 ]
 const TEST_PLAYLIST_ID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
 
-
-
 export default function PlaylistContainer() {
   const [view, setView] = useState('PLAYLIST') // 'PLAYLIST' | 'SELECT'
   const [selected, setSelected] = useState(TEST_PLAYLIST_ID)
@@ -32,7 +30,7 @@ export default function PlaylistContainer() {
   }
 
   // const { data, loading, error } = useApiCalls(fetchUserPlaylists, [])
-  // console.log('fetch returns: ', data, loading, error)
+  // // console.log('fetch returns: ', data, loading, error)
 
   // if (loading) {
   //   return (
@@ -71,7 +69,7 @@ export default function PlaylistContainer() {
 
   //     <div style={{ display: view == 'SELECT' ? 'block' : 'none' }}>
   //       {data.map((data: any, i: number) => (
-  //         <PlaylistCard plData={data} select={selectPlaylist} key={i} />
+  //         <PlaylistCard plData={data} selectThisPlaylist={selectPlaylist} key={i} />
   //       ))}
   //     </div>
   //   </div>

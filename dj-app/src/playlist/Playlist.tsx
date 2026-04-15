@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { useContext } from 'react'
+import { UserContext } from '../App.tsx'
 
 import '../styles/Playlist.sass'
 
@@ -16,7 +18,7 @@ const TEST_PLAYLIST_TRACKS = [
   { id: 'xxxx', cover: placeholder, name: 'Track 3', artists: 'Artist 3', album: 'Album 3', albumID: '----', label: 'Label 3', duration: '4:23' },
 ]
 // const testPlaylistID = '1xdi2SUZ0LaH6Al71Gs7nH' // DJprep
-const TEST_NR_OF_TRACKS = 2000 //!important
+const TEST_NR_OF_TRACKS = 500 //!important
 // const TEST_PLAYLIST_TRACKS_FILL = Array(TEST_NR_OF_TRACKS).fill(TEST_PLAYLIST_TRACKS[0])
 const TEST_PLAYLIST_TRACKS_FILL = Array.from({ length: TEST_NR_OF_TRACKS }, (_, i) => ({
   id: 'xxxx',
@@ -31,15 +33,17 @@ const TEST_PLAYLIST_TRACKS_FILL = Array.from({ length: TEST_NR_OF_TRACKS }, (_, 
 
 const ROW_HEIGHT = 55
 const VISIBLE_ROWS = 12
-const OVERSCAN = 10
+const OVERSCAN = 6
 const PAGE_SIZE = 50
 
 export default function Playlist({ playlistID, nrOfTracks }: { playlistID: string, nrOfTracks: number }) {
+  playlistID = '6tf2tushKR92emtanXaPfy' // #1 tracks playlist
   nrOfTracks = TEST_NR_OF_TRACKS
 
   const [scrollTop, setScrollTop] = useState(0)
   const [tracks, setTracks] = useState<any[]>([])
   const [loadedPages, setLoadedPages] = useState<Set<number>>(new Set())
+  const token = useContext(UserContext)
 
   useEffect(() => {
     setTracks(new Array(nrOfTracks).fill(null))
@@ -47,8 +51,6 @@ export default function Playlist({ playlistID, nrOfTracks }: { playlistID: strin
 
   const onScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setScrollTop(e.currentTarget.scrollTop)
-    console.log('scrollTop:', e.currentTarget.scrollTop)
-    console.log('startIndex:', startIndex, 'endIndex:', endIndex)
   }
 
   const startIndex = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - OVERSCAN)
@@ -65,16 +67,22 @@ export default function Playlist({ playlistID, nrOfTracks }: { playlistID: strin
     }
   }, [startIndex, endIndex])
 
-  async function fetchPage(page: number) {
+  const fetchPage = async (page: number) => {
     setLoadedPages(p => new Set(p).add(page))
     const offset = page * PAGE_SIZE
 
-    const pageTracks = TEST_PLAYLIST_TRACKS_FILL.slice(offset, offset + PAGE_SIZE) // Test data
-    await new Promise(r => setTimeout(r, 1000))
+    //* test data
+    // const pageTracks = TEST_PLAYLIST_TRACKS_FILL.slice(offset, offset + PAGE_SIZE) // Test data
+    // await new Promise(r => setTimeout(r, 1000))
+    //* actual api call
+    const controller = new AbortController()
+    const pageTracks = await fetchPlaylistItems(token, controller.signal, playlistID, offset, PAGE_SIZE)
+    controller.abort()
+    // console.log('FETCH: ', offset, page, pageTracks)
 
     setTracks(prev => {
       const copy = [...prev]
-      pageTracks.forEach((track, i) => {
+      pageTracks.forEach((track: any, i: number) => {
         copy[offset + i] = track
       })
       return copy
@@ -126,15 +134,6 @@ export default function Playlist({ playlistID, nrOfTracks }: { playlistID: strin
     <div onScroll={onScroll} className="playlist">
       <div className="hidden-list-full" style={{ height: `${nrOfTracks * ROW_HEIGHT}px` }} />
       <div className="visible-list" style={{ top: `${startIndex * ROW_HEIGHT}px` }}>
-        {/* {TEST_PLAYLIST_TRACKS_FILL.map((data: any, i: number) => (
-          <Track
-            trackData={data}
-            playlistID={playlistID}
-            key={i}
-            id={i}
-          />
-        ))} */}
-
         {tracks.slice(startIndex, endIndex).map((track, i) => {
           const index = startIndex + i
           return track ? (
@@ -148,7 +147,6 @@ export default function Playlist({ playlistID, nrOfTracks }: { playlistID: strin
             <TrackLoading key={index} />
           )
         })}
-
       </div>
     </div>
   )

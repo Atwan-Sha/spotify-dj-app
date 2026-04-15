@@ -117,15 +117,18 @@ export async function fetchUserPlaylists(token: string, signal: AbortSignal) {
 export async function fetchPlaylistItems(
   token: string,
   signal: AbortSignal,
-  playlistID: string
+  playlistID: string,
+  offset: number,
+  limit: number
 ) {
   const playlistItems = await spotifyApiCallGet(
     token,
     signal,
-    `playlists/${playlistID}/tracks?offset=0&limit=100`
+    `playlists/${playlistID}/items?offset=${offset}&limit=${limit}`
   )
   // console.log(playlistItems)
   const playlistTracks = simplifyPlaylistData(playlistItems)
+  // console.log(playlistTracks)
   return playlistTracks
 }
 

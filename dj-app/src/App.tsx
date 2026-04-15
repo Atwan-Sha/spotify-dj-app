@@ -12,7 +12,7 @@ export const UserContext = createContext('')
 export default function App() {
 
   const [token, setToken] = useState(
-    'BQCKON33mKERv2Ae8npPqGjmsBMX5igfbK15XRZGgnXJdLnjW9VmiNQ1MrQS068D0j3I69T6TqKKsLEEq7NUj7XT4YQzIwhH6p97EVoWtp-bTZw61T4G7gSrybdxKbrCIAVOGpxxcxDkaR9yn_aWs2eU6V3UdWwWv2q1vmx9UwYqFPj2LYgq13yvZBOQmwuk2DIoc8-sEm-bggSzU6nZJyxXyLmUHQNBtKk54-c0dU1HVPwKghKJ'
+    'BQAKaYZQePIS-VwjYmo3bwNZHVTh6-CaADUtA-gVlEQBpXWOYwryDzayVKC4ocsbIy1yNo5Iu_NVQjS38y6lctQCQuf4PPUHeDXWoF43vM34cw16Fejy704KH63E0fg_oBo_FfusLOM'
   )
 
   return (
@@ -20,7 +20,7 @@ export default function App() {
       <UserContext.Provider value={token}>
         <PlaylistContainer />
         {/* <Player token={token} /> */}
-        {/* <PlaylistContainer /> */}
+        <PlaylistContainer />
       </UserContext.Provider>
     </>
   )

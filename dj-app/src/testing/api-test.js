@@ -1,25 +1,76 @@
-const token =
-  'BQAJndDl1lsU4UBVnaG087_04BMc-fD1StTyc_rjeaJBM0nuqH5IpDUkGT6uufadkpExAc343MICFvuMbo-8C8AWzqNbBBy14Ivn_aXz3Ubdf8imOoLrwumIB8IVsgJGSNFbM1nXzsvQ8ZMw9L_LEOMKpE8KwdVHPiAyRss3pZIvuqdgVYXXaO8frzQ6yzbWux2O2YerkAAUH7XpAUwB-TsG6IuW5F5mztiE2KcpahQDg2B0'
 
-// const trackID = '6h8XB17UOsUo83w0NX8Zkq'
+//! delete after test
+const client_id = ''
+const client_secret = ''
+
+async function getToken() {
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    body: new URLSearchParams({
+      grant_type: 'client_credentials',
+    }),
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization:
+        'Basic ' +
+        Buffer.from(client_id + ':' + client_secret).toString('base64'),
+    },
+  })
+  const token = await response.json()
+  return token.access_token
+}
+
+//* test run
+const token = await getToken()
+console.log(token)
+
+const trackID = '6h8XB17UOsUo83w0NX8Zkq'
 const playlistID = '1xdi2SUZ0LaH6Al71Gs7nH'
+// getPlaylist(playlistID, token)
+// getUsersPlaylists(token)
+
+
+
+
+async function getUsersPlaylists(token) {
+  let res = await fetch(
+    `https://api.spotify.com/v1/me/playlists`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      method: 'GET',
+    },
+  )
+  res = await res.json()
+  console.log(res)
+}
 
 async function getPlaylist(playlistID, token) {
-  let res = await fetch(`https://api.spotify.com/v1/playlists/${playlistID}/tracks`, {
-    headers: {  
+  let res = await fetch(
+    `https://api.spotify.com/v1/playlists/${playlistID}/items`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      method: 'GET',
+    },
+  )
+  res = await res.json()
+  console.log(res)
+}
+
+async function getTrack(trackID, token) {
+  let response = await fetch(`https://api.spotify.com/v1/tracks/${trackID}`, {
+    headers: {
       Authorization: `Bearer ${token}`,
     },
     method: 'GET',
   })
-  res = await res.json()
-  console.log(res.items[1].track)
+  response = await response.json()
+  console.log(response)
 }
-
-getPlaylist(playlistID, token)
-
-
-
-
+// getTrack(trackID, token)
 
 // async function getTrackData(trackID, token) {
 //   //* get track data
